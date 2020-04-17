@@ -1,0 +1,7 @@
+{
+  "name": "Worldpump",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

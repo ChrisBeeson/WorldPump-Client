@@ -1,0 +1,8 @@
+{
+  "appId": "com.andris.worldpump",
+  "appName": "WorldPump",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

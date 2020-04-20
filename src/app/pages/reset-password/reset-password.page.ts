@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserCredential } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AuthFormComponent } from 'src/app/components/auth-form/auth-form.component';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ export class ResetPasswordPage implements OnInit {
   @ViewChild(AuthFormComponent)
   resetPasswordForm: AuthFormComponent;
   constructor(
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private alertCtrl: AlertController,
     private router: Router
   ) {}

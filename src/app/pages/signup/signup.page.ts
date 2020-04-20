@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserCredential } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AuthFormComponent } from 'src/app/components/auth-form/auth-form.component';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class SignupPage implements OnInit {
   @ViewChild(AuthFormComponent)
   signupForm: AuthFormComponent;
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit() {}
 

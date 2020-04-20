@@ -3,11 +3,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 import 'firebase/firestore';
+import { auth } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+
+export class AuthenticationService {
   public userId: string;
   constructor(
     private afAuth: AngularFireAuth,
@@ -18,14 +20,14 @@ export class AuthService {
     return this.afAuth.authState.pipe(first()).toPromise();
   }
 
-  login(
+  public async login(
     email: string,
     password: string
   ): Promise<firebase.auth.UserCredential> {
     return this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
-  async signup(
+  public async signup(
     email: string,
     password: string
   ): Promise<firebase.auth.UserCredential> {
@@ -50,4 +52,29 @@ export class AuthService {
   logout(): Promise<void> {
     return this.afAuth.signOut();
   }
+
+  facebookLogin() {
+    const provider = new auth.FacebookAuthProvider();
+    return this.oAuthLogin(provider);
+  }
+
+  twitterLogin() {
+    const provider = new auth.TwitterAuthProvider();
+    return this.oAuthLogin(provider);
+  }
+
+  private async oAuthLogin(provider: any) {
+    try {
+      const credential = await this.afAuth.signInWithPopup(provider);
+      // this.notify.update('Welcome to Firestarter!!!', 'success');
+      return credential.user;
+    }
+    catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
+
+
+  
 }

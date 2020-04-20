@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 import { ProfileService } from 'src/app/services/profile.service';
 import { AlertController } from '@ionic/angular';
@@ -13,7 +13,7 @@ import { UserProfile } from 'src/app/models/user';
 export class ProfilePage implements OnInit {
   public userProfile: UserProfile;
   constructor(
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private router: Router,
     private profileService: ProfileService,
     private alertCtrl: AlertController

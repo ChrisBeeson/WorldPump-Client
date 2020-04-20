@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { AuthService } from './auth.service';
+import { AuthenticationService } from './authentication.service';
 import { Observable } from 'rxjs';
 
 import * as firebase from 'firebase/app';
@@ -18,7 +18,7 @@ export class ProfileService {
   private currentUser: firebase.User;
   constructor(
     private firestore: AngularFirestore,
-    private authService: AuthService
+    private authService: AuthenticationService
   ) {}
 
   async getUserProfile(): Promise<Observable<UserProfile>> {

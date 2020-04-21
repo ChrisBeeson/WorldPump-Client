@@ -3,7 +3,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 import { ProfileService } from 'src/app/services/profile.service';
 import { AlertController } from '@ionic/angular';
-import { UserProfile } from 'src/app/models/user';
+import { Profile } from 'src/app/models/user';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +11,8 @@ import { UserProfile } from 'src/app/models/user';
   styleUrls: ['./profile.page.scss']
 })
 export class ProfilePage implements OnInit {
-  public userProfile: UserProfile;
+  public userProfile: Profile;
+
   constructor(
     private authService: AuthenticationService,
     private router: Router,

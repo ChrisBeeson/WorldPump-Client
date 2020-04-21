@@ -11,10 +11,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from './services/authentication.service';
+import { WorkoutPipe } from './pages/workout.pipe';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, WorkoutPipe],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -22,12 +24,15 @@ import { environment } from 'src/environments/environment';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+
+    AngularFirestoreModule,
+
 
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AngularFireAuthGuard
+    AngularFireAuthGuard,
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })

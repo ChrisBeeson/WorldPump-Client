@@ -5,26 +5,40 @@ import {
 } from '@angular/fire/firestore';
 import { AuthenticationService } from './authentication.service';
 import { Observable } from 'rxjs';
+import { switchMap, map, take } from 'rxjs/operators';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { UserProfile } from '../models/user';
+import { Profile } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
-  private userProfile: AngularFirestoreDocument<UserProfile>;
+  private userProfile: AngularFirestoreDocument<Profile>;
   private currentUser: firebase.User;
+  public authenticatedProfile$: Observable<Profile>; 
+
+
+
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthenticationService
-  ) {}
+  ) {
 
-  async getUserProfile(): Promise<Observable<UserProfile>> {
+    this.authenticatedProfile$ = this.authService.user$.pipe(
+      switchMap(user => {
+        return <Observable<Profile>>this.firestore.doc('profiles/'+user).valueChanges();
+      })
+
+    )
+
+  }
+
+  async getUserProfile(): Promise<Observable<Profile>> {
     const user: firebase.User = await this.authService.getUser();
     this.currentUser = user;
-    this.userProfile = this.firestore.doc(`userProfile/${user.uid}`);
+    this.userProfile = this.firestore.doc(`profiles/${user.uid}`);
     return this.userProfile.valueChanges();
   }
 

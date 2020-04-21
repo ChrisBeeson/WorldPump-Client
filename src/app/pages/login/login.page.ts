@@ -50,6 +50,7 @@ export class LoginPage implements OnInit {
 
   doEmailLogin(): void {
     this.attemptingLogin = true;
+    console.log("login form: "+this.loginForm['email'].value);
     this.authService.login(this.loginForm['email'].value, this.loginForm['password'].value)
     .then(res => {
       if (res) {
@@ -67,6 +68,7 @@ export class LoginPage implements OnInit {
 
   
   goToForgotPassword(): void {
+    //todo: forgotpassword
     console.log('redirect to forgot-password page');
   }
 
@@ -74,7 +76,7 @@ export class LoginPage implements OnInit {
     console.log('facebook login');
     this.attemptingLogin = true;
     this.authService.facebookLogin()
-    .then(res=> {
+    .then(res => {
       this.attemptingLogin = false;
       this.router.navigate(["/home"]);
     })

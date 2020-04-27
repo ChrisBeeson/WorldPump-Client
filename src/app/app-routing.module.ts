@@ -3,13 +3,20 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/lobby', pathMatch: 'full' },
   {
     path: 'home',
     loadChildren: () =>
       import('./pages/home/home.module').then(m => m.HomePageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'lobby',
+    loadChildren: () =>
+      import('./pages/workout/lobby/lobby.module').then(m => m.LobbyPageModule),
+    canActivate: [AuthGuard]
+  },
+
   {
     path: 'login',
     loadChildren: () =>
@@ -32,7 +39,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/profile/profile.module').then(m => m.ProfilePageModule),
     canActivate: [AuthGuard]
-  }
+  },
+  { path: 'lobby', loadChildren: './pages/lobby/lobby.module#LobbyPageModule' },
+  { path: 'pump-countdown', loadChildren: './pump-countdown/pump-countdown.module#PumpCountdownPageModule' },
+  { path: 'pump', loadChildren: './pump/pump.module#PumpPageModule' },
+  { path: 'barchart-stats', loadChildren: './pages/stats/barchart-stats/barchart-stats.module#BarchartStatsPageModule' }
 ];
 
 @NgModule({

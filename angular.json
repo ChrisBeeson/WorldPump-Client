@@ -111,7 +111,8 @@
             "karmaConfig": "karma.conf.js",
             "styles": [],
             "scripts": [],
-            "assets": [
+            "assets": [ 
+              "firebase-messaging-sw.js",
               {
                 "glob": "favicon.ico",
                 "input": "src/",

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "703715173552",
+    "firebase_url": "https://worldpump-pandemic.firebaseio.com",
+    "project_id": "worldpump-pandemic",
+    "storage_bucket": "worldpump-pandemic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703715173552:android:916f375b0b3cd8bbc7c775",
+        "android_client_info": {
+          "package_name": "com.andris.worldpump"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703715173552-e1gunrf0b7qmu0543qn6hee6jro2b5s4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuAqqrwyGP1zEBtzkDjDeJPDW-5YecPn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703715173552-e1gunrf0b7qmu0543qn6hee6jro2b5s4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "703715173552-kjdad8hhvk208amlrnqaeu16emk5j27n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.andris.worldpump"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

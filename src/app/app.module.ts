@@ -12,6 +12,10 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from './services/authentication.service';
 import { ComponentsModule } from './components/components.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
+
 
 
 @NgModule({
@@ -25,9 +29,16 @@ import { ComponentsModule } from './components/components.module';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireMessagingModule,
-    ComponentsModule
-    
-
+    ComponentsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+        loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+        },
+        defaultLanguage: 'en'
+    })
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -37,3 +48,10 @@ import { ComponentsModule } from './components/components.module';
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+

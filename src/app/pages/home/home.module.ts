@@ -17,6 +17,7 @@ import { HomePage } from './home.page';
         component: HomePage
       }
     ])
+
   ],
   declarations: [HomePage]
 })

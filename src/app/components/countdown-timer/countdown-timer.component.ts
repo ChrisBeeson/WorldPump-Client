@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-
 import { Observable, Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

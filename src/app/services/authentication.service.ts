@@ -20,9 +20,11 @@ export class AuthenticationService {
   ) {
 
     this.user$ = this.afAuth.user.pipe(take(1));
+    /*
     this.user$.subscribe(x => {
       console.log("User pipe"+ JSON.stringify(x))
     });
+    */
   }
 
   getUser(): Promise<firebase.User> {

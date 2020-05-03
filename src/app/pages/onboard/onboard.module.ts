@@ -2,17 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
-import { ComponentsModule } from '../components/components.module';
-
-import { WalkthroughPage } from './walkthrough.page';
+import { ComponentsModule } from '../../components/components.module';
+import { OnboardPage } from './onboard.page';
+import { LoginPageModule } from '../login/login.module';
+import { RegisterComponent } from '../register/register.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: WalkthroughPage
+    component: OnboardPage
   }
 ];
 
@@ -22,8 +21,10 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ComponentsModule
+    ComponentsModule,
+    LoginPageModule
+
   ],
-  declarations: [WalkthroughPage]
+  declarations: [OnboardPage, RegisterComponent]
 })
-export class WalkthroughPageModule {}
+export class OnboardPageModule {}

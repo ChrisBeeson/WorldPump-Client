@@ -14,12 +14,12 @@ import { AuthenticationService } from './services/authentication.service';
 import { ComponentsModule } from './components/components.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
-
-
+import { HttpClientModule, HttpClient} from '@angular/common/http';
+import { OnboardPageModule } from './pages/onboard/onboard.module';
+import { LoginPageModule } from './pages/login/login.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -38,7 +38,10 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
             deps: [HttpClient]
         },
         defaultLanguage: 'en'
-    })
+    }),
+    OnboardPageModule,
+    LoginPageModule
+  
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

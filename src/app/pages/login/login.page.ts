@@ -6,12 +6,13 @@ import { AuthenticationService } from '../../services/authentication.service'
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-page',
   templateUrl: './login.page.html',
   styleUrls: [
     './styles/login.page.scss'
   ]
 })
+
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
   attemptingLogin = false;

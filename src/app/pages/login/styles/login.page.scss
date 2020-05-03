@@ -1,33 +1,25 @@
 // Custom variables
 // Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
-:host {
-  --page-margin: var(--app-broad-margin);
-  --page-background: var(--app-background-shade);
-}
+
 
 // Note:  All the CSS variables defined below are overrides of Ionic elements CSS Custom Properties
 .login-content {
-  --background: var(--page-background);
-  --padding-start: var(--page-margin);
-  --padding-end: var(--page-margin);
-  --padding-top: var(--page-margin);
-  --padding-bottom: var(--page-margin);
 
-  .auth-title {
-    color: var(--ion-color-dark);
-    font-weight: bold;
-    margin-top: calc(var(--page-margin) / 2);
-    margin-bottom: calc(var(--page-margin) * (3/2));
-    letter-spacing: 0.6px;
-  }
-
+  ion-input{
+    border-radius: 4px !important;
+    padding-right: 0px;
+    padding-left: 0px;
+    font-size: 0.9em;
+    
+    --background: rgb(219,219,219) !important;
+}
   .inputs-list {
     --ion-item-background: var(--page-background);
 
+    
     .input-item {
-      --padding-start: 10px;
-      --padding-end: 1px;
-      --inner-padding-end: 1px;
+      background-color: var(--page-background);
+      text-indent: 6px;
     }
 
     .error-container {
@@ -43,7 +35,7 @@
   }
 
   .login-btn {
-    margin: calc(var(--page-margin) / 2) 0px;
+    margin: calc(var(--page-margin) / 1) 0px;
   }
 
   .other-auth-options-row {
@@ -70,14 +62,20 @@
   }
 
   .social-auth-options {
+
+
+
     .options-divider {
-      color: var(--ion-color-medium);
-  		margin: var(--page-margin) 0px;
-  		text-align: center;
+      color:  var(--ion-color-medium);
+  		margin: var(--page-margin);
+      text-align: center;
+      font-size: 15px;
+      padding-top:30px;
+
     }
 
     .social-auth-btn {
-      margin: 2px;
+      margin: 5px;
 
       &:not(:first-child) {
         margin-top: var(--page-margin);

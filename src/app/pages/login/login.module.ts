@@ -4,15 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
-
 import { ComponentsModule } from '../../components/components.module';
-
-
 import { LoginPage } from './login.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'login',
     component: LoginPage
   }
 ];
@@ -26,6 +23,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage],
+  exports: [
+    LoginPage
+
+  ]
 })
 export class LoginPageModule {}

@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/lobby', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
     loadChildren: () =>
@@ -11,26 +11,30 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'lobby',
+    path: 'onboard',
     loadChildren: () =>
-      import('./pages/workout/lobby/lobby.module').then(m => m.LobbyPageModule),
-    canActivate: [AuthGuard]
+      import('./pages/onboard/onboard.module').then(m => m.OnboardPageModule)
   },
-
   {
     path: 'login',
     loadChildren: () =>
       import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
- 
-  
   {
     path: 'profile',
     loadChildren: () =>
       import('./pages/profile/profile.module').then(m => m.ProfilePageModule),
     canActivate: [AuthGuard]
   },
-  { path: 'lobby', loadChildren: './pages/lobby/lobby.module#LobbyPageModule' },
+  // Satas
+  {
+    path: 'lobby',
+    loadChildren: () =>
+      import('./pages/workout/lobby/lobby.module').then(m => m.LobbyPageModule),
+    canActivate: [AuthGuard]
+  },
+
+
   { path: 'pump-countdown', loadChildren: './pump-countdown/pump-countdown.module#PumpCountdownPageModule' },
   { path: 'pump', loadChildren: './pump/pump.module#PumpPageModule' },
   { path: 'barchart-stats', loadChildren: './pages/stats/barchart-stats/barchart-stats.module#BarchartStatsPageModule' }

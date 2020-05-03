@@ -2,16 +2,15 @@ import { Component, OnInit, AfterViewInit, ViewChild, HostBinding } from '@angul
 
 import { IonSlides, MenuController } from '@ionic/angular';
 
+
 @Component({
-  selector: 'app-walkthrough',
-  templateUrl: './walkthrough.page.html',
+  selector: 'app-onboard',
+  templateUrl: './onboard.page.html',
   styleUrls: [
-    './styles/walkthrough.page.scss',
-    './styles/walkthrough.shell.scss',
-    './styles/walkthrough.responsive.scss'
+    './styles/onboard.page.scss'
   ]
 })
-export class WalkthroughPage implements OnInit, AfterViewInit {
+export class OnboardPage implements OnInit, AfterViewInit {
   slidesOptions: any = {
     zoom: {
       toggle: false // Disable zooming to prevent weird double tap zomming on slide images
@@ -19,9 +18,7 @@ export class WalkthroughPage implements OnInit, AfterViewInit {
   };
 
   @ViewChild(IonSlides, { static: true }) slides: IonSlides;
-
   @HostBinding('class.first-slide-active') isFirstSlide = true;
-
   @HostBinding('class.last-slide-active') isLastSlide = false;
 
   constructor(public menu: MenuController) { }

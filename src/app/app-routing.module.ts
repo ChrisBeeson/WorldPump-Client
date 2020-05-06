@@ -4,12 +4,7 @@ import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  {
-    path: 'home',
-    loadChildren: () =>
-      import('./pages/home/home.module').then(m => m.HomePageModule),
-    canActivate: [AuthGuard]
-  },
+
   {
     path: 'onboard',
     loadChildren: () =>
@@ -20,6 +15,26 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
+
+  { 
+    path: 'notification-authorisation',
+  loadChildren: () =>
+  import('./pages/notification-authorisation/notification-authorisation.module').then(m => m.NotificationAuthorisationPageModule) 
+},
+
+  { 
+    path: 'wait', 
+  loadChildren: () =>
+  import('./pages/wait/wait.module').then(m => m.WaitPageModule) 
+  },
+
+  {
+    path: 'lobby',
+    loadChildren: () =>
+      import('./pages/workout/lobby/lobby.module').then(m => m.LobbyPageModule),
+    canActivate: [AuthGuard]
+  },
+  
   {
     path: 'profile',
     loadChildren: () =>
@@ -27,10 +42,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   // Satas
+
+
   {
-    path: 'lobby',
+    path: 'home',
     loadChildren: () =>
-      import('./pages/workout/lobby/lobby.module').then(m => m.LobbyPageModule),
+      import('./pages/home/home.module').then(m => m.HomePageModule),
     canActivate: [AuthGuard]
   },
 
@@ -38,6 +55,8 @@ const routes: Routes = [
   { path: 'pump-countdown', loadChildren: './pump-countdown/pump-countdown.module#PumpCountdownPageModule' },
   { path: 'pump', loadChildren: './pump/pump.module#PumpPageModule' },
   { path: 'barchart-stats', loadChildren: './pages/stats/barchart-stats/barchart-stats.module#BarchartStatsPageModule' }
+
+
 ];
 
 @NgModule({

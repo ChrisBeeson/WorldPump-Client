@@ -3,7 +3,9 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthenticationService } from '../../services/authentication.service'
+import { ProfileService } from '../../services/profile.service'
 import { ToastController } from '@ionic/angular';
+import { Profile } from 'src/app/models/user';
 
 @Component({
   selector: 'app-login-page',
@@ -31,8 +33,10 @@ export class LoginPage implements OnInit {
     private authService: AuthenticationService,
     public router: Router,
     public menu: MenuController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public profileService: ProfileService
   ) {
+
     this.loginForm = new FormGroup({
       'email': new FormControl('', Validators.compose([
         Validators.required,
@@ -51,12 +55,18 @@ export class LoginPage implements OnInit {
 
   doEmailLogin(): void {
     this.attemptingLogin = true;
-    console.log("login form: "+this.loginForm['email'].value);
-    this.authService.login(this.loginForm['email'].value, this.loginForm['password'].value)
+    this.router.navigate(["/wait"]);
+    //console.log("Log in form:"+JSON.stringify(this.loginForm));
+    console.log("login form: "+this.loginForm['email']);
+    this.authService.login(this.loginForm['email'], this.loginForm['password'])
     .then(res => {
       if (res) {
         this.attemptingLogin = false;
-        this.router.navigate(["/home"]);
+      
+        // do we have a notification Token?
+        
+        this.router.navigate(["/notification-authorisation"]);
+
       }
     }).catch( error => {
       this.attemptingLogin = false;

@@ -24,3 +24,11 @@ ion-title {
   --app-broad-radius: 12px;
 
 }
+
+
+$list-md-background-color: var(--ion-color-primary);
+
+.md {
+
+  --ion-list-background: var(--ion-color-primary);
+}

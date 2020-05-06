@@ -82,15 +82,44 @@
   --ion-color-dark-contrast-rgb: 255,255,255;
   --ion-color-dark-shade: #1e2023;
   --ion-color-dark-shade-rgb: 30,32,35;
-  --ion-color-dark-tint: #383a3e;
+  --ion-color-dark-tint: #4f5258;
   --ion-color-dark-tint-rgb: 56,58,62;
 
   /** darkest **/
   --ion-color-darkest: #000000;
   --ion-color-darkest-rgb: 0,0,0;
+
+
+
+.h1-small {
+  font-size: 5rem;
+  color: var(--ion-color-secondary);
+  line-height: 70%;
 }
 
+h2 {
+  font-size: 4rem;
+  color: var(--ion-color-tertiary);
+  line-height: 80%
+}
 
+h3 {
+  font-size: 2.5rem;
+  color: var(--ion-color-primary);
+  line-height: 100%
+}
+  
+h4 {
+
+  color: var(--ion-color-primary);
+  line-height: 80%
+}
+  
+h6 {
+
+  color: var(--ion-color-dark-tint);
+  line-height: 60%
+}
 
 html.ios {
   --app-header-height: 44px;
@@ -98,4 +127,5 @@ html.ios {
 
 html.md {
   --app-header-height: 56px;
+}
 }

@@ -3,28 +3,35 @@
 
 
 // Note:  All the CSS variables defined below are overrides of Ionic elements CSS Custom Properties
+
+ion-input{
+  border-radius: var(--ion-color-primary);
+}
+
+
+ion-list{
+  background-color: green($color: #8a1717);
+  background-color: green($color: #8a1717);
+}
+
+.md {
+  background:green($color: #8a1717);
+}
+
+.card {
+  background-color: rgb(255, 255, 255); // black
+
+}
+
 .login-content {
 
-  ion-input{
-    border-radius: 4px !important;
-    padding-right: 0px;
-    padding-left: 0px;
-    font-size: 0.9em;
-    
-    --background: rgb(219,219,219) !important;
-}
-  .inputs-list {
-    --ion-item-background: var(--page-background);
-
-    
-    .input-item {
-      background-color: var(--page-background);
-      text-indent: 6px;
-    }
+  .inputs-list { 
+    background-color: var(--ion-color-primary);
+  }
 
     .error-container {
       .error-message {
-        margin: calc(var(--page-margin) / 2) 5px;
+        margin: calc(var(--page-margin) / 2);
         display: flex;
         align-items: center;
         color: var(--ion-color-danger);
@@ -63,8 +70,6 @@
 
   .social-auth-options {
 
-
-
     .options-divider {
       color:  var(--ion-color-medium);
   		margin: var(--page-margin);
@@ -82,4 +87,4 @@
       }
     }
   }
-}
+

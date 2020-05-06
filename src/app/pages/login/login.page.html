@@ -2,32 +2,30 @@
   <div class="login-content">
   <div class="social-auth-options">
 
-<ion-card>
-  <ion-card-content>
-    <ion-button class="social-auth-btn " expand="block" color="facebook" (click)="doFacebookLogin()">
+<ion-card class="card">
+  <ion-card-content >
+    <ion-button class="social-auth-btn "expand="block" color="facebook" (click)="doFacebookLogin()">
       Log In with Facebook</ion-button>
+      <div  style="padding-bottom:5px;" ></div>
     <ion-button class="social-auth-btn " expand="block" color="twitter" (click)="doTwitterLogin()">Log
       In with Twitter</ion-button>
   </ion-card-content>
 </ion-card>
 
-  <div class="options-divider">
-    Or with email
+  <div style="padding:10px" >
+    <h5>Or with email</h5>
   </div>
 </div>
 
 
-<ion-card>
+<ion-card class="card">
   <ion-card-content>
     <form [formGroup]="loginForm" (ngSubmit)="doEmailLogin()">
 
-      <ion-list class="inputs-list" >
-
-        <ion-item class="input-item">
-          <ion-input type="email" placeholder="Email" formControlName="email" clearInput autocapitalize="off" inputmode="email"></ion-input>
+      <ion-list style="background:white; padding-top:3px; padding-bottom: 3px">
+        <ion-item color="primary" class="ion-no-padding">
+          <ion-input  type="email" placeholder="Email" formControlName="email" clearInput autocapitalize="off" inputmode="email" color="dark"></ion-input>
         </ion-item>
-
-
 
         <div class="error-container">
           <ng-container *ngFor="let validation of validation_messages.email">
@@ -38,9 +36,9 @@
           </ng-container>
         </div>
 
-        <ion-item class="input-item">
-          <app-show-hide-password>
-            <ion-input type="password" placeholder="Password" fill="clear" formControlName="password"></ion-input>
+        <ion-item color="primary" class="ion-no-padding">
+          <app-show-hide-password class="input-item">
+            <ion-input type="password" placeholder="Password" fill="clear" formControlName="password" color="dark"></ion-input>
           </app-show-hide-password>
         </ion-item>
 
@@ -55,8 +53,8 @@
         </div>
       </ion-list>
 
-      <ion-button class="login-btn" type="submit" expand="block" [disabled]="!loginForm.valid">Sign Up</ion-button>
-
+      <ion-button color="dark" type="submit" expand="block" [disabled]="!loginForm.valid">Sign Up / Log in</ion-button>
+    
     </form>
   </ion-card-content>
 </ion-card>

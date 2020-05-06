@@ -14,15 +14,36 @@ width:85%;
   h1 {
     font-size: 6rem;
     color: var(--ion-color-secondary);
+    line-height: 80%;
+  }
+
+  .h1-small {
+    font-size: 5rem;
+    color: var(--ion-color-secondary);
+    line-height: 70%;
   }
 
   h2 {
     font-size: 4rem;
     color: var(--ion-color-tertiary);
+    line-height: 80%
   }
   
   h3 {
     font-size: 2.5rem;
     color: var(--ion-color-primary);
+    line-height: 100%
+  }
+    
+  h4 {
+
+    color: var(--ion-color-primary);
+    line-height: 80%
+  }
+    
+  h6 {
+
+    color: var(--ion-color-dark-tint);
+    line-height: 60%
   }
 }

@@ -37,14 +37,21 @@ export class OnboardPage implements OnInit, AfterViewInit {
     });
 
     // Subscribe to changes
+    
     this.slides.ionSlideWillChange.subscribe(changes => {
-      this.slides.isBeginning().then(isBeginning => {
-        this.isFirstSlide = isBeginning;
-      });
-      this.slides.isEnd().then(isEnd => {
-        this.isLastSlide = isEnd;
-      });
-    });
+
+      changes.a = this.slides.getActiveIndex (currentSlide => {
+
+        switch (currentSlide) {
+          case 4:
+            this.slides.lockSwipeToNext;
+        }
+
+      })
+      console.log("Slider Changed to index:"+this.slides.getActiveIndex);
+
+
+
   }
 
   skipWalkthrough(): void {

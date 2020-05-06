@@ -4,7 +4,7 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #1C1C1C;
+  --ion-color-primary: rgb(255, 255, 255);
   --ion-color-primary-rgb: 28,28,28;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255,255,255;
@@ -90,23 +90,7 @@
   --ion-color-darkest-rgb: 0,0,0;
 }
 
-:root {
-  /* Set the font family of the entire app */
-  --ion-font-family: 'Rubik', sans-serif;
 
-  --app-background: #000000;
-  --app-background-shade: var(--ion-background-color-step-50, #F2F2F2);
-  --app-background-alt: var(--ion-color-primary);
-  --app-background-alt-shade: var(--ion-color-primary-shade);
-
-  --app-narrow-margin: 12px;
-  --app-fair-margin: 16px;
-  --app-broad-margin: 20px;
-
-  --app-narrow-radius: 4px;
-  --app-fair-radius: 8px;
-  --app-broad-radius: 12px;
-}
 
 html.ios {
   --app-header-height: 44px;

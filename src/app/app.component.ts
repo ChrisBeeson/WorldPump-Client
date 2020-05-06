@@ -15,6 +15,8 @@ const { SplashScreen, Storage } = Plugins;
 })
 export class AppComponent {
   constructor(translate: TranslateService, private platform: Platform, private router: Router) {
+
+
     // firebase.initializeApp(environment.firebase);
 
     this.platform.ready().then(() => {

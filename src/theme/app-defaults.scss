@@ -3,3 +3,24 @@ ion-title {
   letter-spacing: 0.4px;
 }
 
+:root {
+--ion-background-color:  var(--ion-color-dark); 
+
+
+--ion-text-color: var(--ion-color-primary);
+--ion-font-family: 'Overpass', sans-serif;
+--ion-font-size:100;
+
+  --app-background-shade: var(--ion-background-color-step-50, #F2F2F2);
+  --app-background-alt: var(--ion-color-primary);
+  --app-background-alt-shade: var(--ion-color-primary-shade);
+
+  --app-narrow-margin: 12px;
+  --app-fair-margin: 16px;
+  --app-broad-margin: 20px;
+
+  --app-narrow-radius: 4px;
+  --app-fair-radius: 8px;
+  --app-broad-radius: 12px;
+
+}

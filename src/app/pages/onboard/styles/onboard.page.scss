@@ -1,11 +1,28 @@
 
-.walkthrough-slides {
-
-  background-color: red($color: #000000);
+.onboard-slides {
+display:flex;
   height: 100%;
+  width: 100%;
   flex-flow: row;
   justify-content: flex-start;
-  align-items: center; 
 
 }
 
+.slide {
+width:85%;
+
+  h1 {
+    font-size: 6rem;
+    color: var(--ion-color-secondary);
+  }
+
+  h2 {
+    font-size: 4rem;
+    color: var(--ion-color-tertiary);
+  }
+  
+  h3 {
+    font-size: 2.5rem;
+    color: var(--ion-color-primary);
+  }
+}

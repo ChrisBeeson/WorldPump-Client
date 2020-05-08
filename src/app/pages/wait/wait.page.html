@@ -9,6 +9,11 @@
         <h4 class="ion-text-center">Enable Notifications</h4>
         <h6 class="ion-text-center">to be notified</h6>
       </div>
+
+      <div style="padding-top:20%" *ngIf="showInviteFriendsOnWaitPage">
+        <h4 class="ion-text-center">{{ this.inviteFriendsWaitPageString }}</h4>
+      </div>
+
     </div>
   </ion-slide>
 </ion-slides>

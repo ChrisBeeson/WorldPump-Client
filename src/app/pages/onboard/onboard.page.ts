@@ -41,7 +41,7 @@ export class OnboardPage implements OnInit, AfterViewInit {
     this.slides.ionSlideWillChange.subscribe(changes => { 
 
       this.slides.getActiveIndex().then(index => {
-        console.log(index);
+      //  console.log(index);
         this.slides.lockSwipeToNext(false);
         switch (index) {
           case 4:

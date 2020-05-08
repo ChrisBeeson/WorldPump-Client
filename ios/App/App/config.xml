@@ -11,6 +11,10 @@
     <param name="onload" value="$FIREBASE_ANALYTICS_COLLECTION_ENABLED"/>
   </feature>
 
+  <feature name="FirebaseConfig">
+    <param name="ios-package" value="FirebaseConfigPlugin"/>
+  </feature>
+
   <feature name="UniversalAnalytics">
     <param name="ios-package" value="UniversalAnalyticsPlugin"/>
   </feature>

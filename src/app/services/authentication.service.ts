@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { first,take } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import 'firebase/firestore';
 import { auth } from 'firebase';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,12 @@ import { auth } from 'firebase';
 
 export class AuthenticationService {
   public userId: string;
-  public user$: Observable<firebase.User>; 
+  public user$: Observable<firebase.User>;
 
   constructor(
     public afAuth: AngularFireAuth,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private firebaseAnalytics: FirebaseAnalytics
   ) {
 
     this.user$ = this.afAuth.user.pipe(take(1));
@@ -47,11 +49,21 @@ export class AuthenticationService {
         email,
         password
       );
+
+      if (newUserCredential) {
+        this.firebaseAnalytics.logEvent('email_signup', {})
+          .then((res: any) => console.log(res))
+          .catch((error: any) => console.error(error));
+      }
+
+      /*  Create profile - this is done as a cloud function
       await this.firestore
         .doc(`profiles/${newUserCredential.user.uid}`)
         .set({ email,
          //todo: signupTimestamp: this.firestore().FieldValue.serverTimestamp();
          });
+      */
+
       return newUserCredential;
     } catch (error) {
       throw error;
@@ -66,19 +78,19 @@ export class AuthenticationService {
     return this.afAuth.signOut();
   }
 
-/*
-  anonymousLogin() {
-    return this.afAuth.auth
-      .signInAnonymously()
-      .then(credential => {
-        this.notify.update('Welcome to Firestarter!!!', 'success');
-        return this.updateUserData(credential.user); // if using firestore
-      })
-      .catch(error => {
-        this.handleError(error);
-      });
-  }
-*/
+  /*
+    anonymousLogin() {
+      return this.afAuth.auth
+        .signInAnonymously()
+        .then(credential => {
+          this.notify.update('Welcome to Firestarter!!!', 'success');
+          return this.updateUserData(credential.user); // if using firestore
+        })
+        .catch(error => {
+          this.handleError(error);
+        });
+    }
+  */
 
   facebookLogin() {
     const provider = new auth.FacebookAuthProvider();
@@ -103,5 +115,5 @@ export class AuthenticationService {
   }
 
 
-  
+
 }

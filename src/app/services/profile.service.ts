@@ -30,9 +30,8 @@ export class ProfileService {
       switchMap(user => {
         return <Observable<Profile>>this.firestore.doc('profiles/'+user).valueChanges();
       })
-
     )
-
+    this.authenticatedProfile$.subscribe(profile => console.log("Profile :"+profile));
   }
 
   async getUserProfile(): Promise<Observable<Profile>> {
@@ -40,6 +39,12 @@ export class ProfileService {
     this.currentUser = user;
     this.userProfile = this.firestore.doc(`profiles/${user.uid}`);
     return this.userProfile.valueChanges();
+  }
+
+  isNotificationsEnabled(): Promise<boolean> {
+   //(this.authenticatedProfile$['token'] !== null) return true else return false;
+
+   return Promise.resolve(true);
   }
 
   updateName(fullName: string): Promise<void> {

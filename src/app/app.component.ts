@@ -6,6 +6,10 @@ import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
 const { SplashScreen, Storage } = Plugins;
+import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
+import { AppManagerService } from './services/app-manager.service';
+import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
 
 
 @Component({
@@ -14,8 +18,19 @@ const { SplashScreen, Storage } = Plugins;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  constructor(translate: TranslateService, private platform: Platform, private router: Router) {
 
+  constructor(translate: TranslateService,
+    private platform: Platform,
+    private router: Router,
+    private firebaseCrashlytics: FirebaseCrashlytics,
+    private firebaseAnalytics: FirebaseAnalytics,
+    private appManagerService: AppManagerService,
+    private firebaseConfig: FirebaseConfig) {
+
+    this.firebaseCrashlytics.initialise();
+    this.firebaseAnalytics.logEvent('app_start', {});
+
+    firebaseConfig.fetchAndActivate();
 
     // firebase.initializeApp(environment.firebase);
 
@@ -23,28 +38,21 @@ export class AppComponent {
       // Here we will check if the user is already logged in
       // because we don't want to ask users to log in each time they open the app
 
-      Storage.get({ key: 'run_count' })
-        .then(data => {
-          let runCount = 1;
-
-          if (data === null) {
+      // navigate new users to onboarding
+      appManagerService.runCount().then(count => {
+        switch (count) {
+          case 0: {
             this.router.navigate(["/onboard"]);
-          } else {
-          
+            break;
+          }
+          default: {
             this.router.navigate(["/onboard"]);
             console.log('run_count found but navigating to onboarding anyway');
-          //  this.router.navigate(["/home"]);
-            runCount = Number(JSON.parse(data.value))+1;
           }
-
-          Storage.set({
-            key: 'run_count',
-            value: runCount.toString()
-          }).then(() => {
-            SplashScreen.hide();
-          }
-          );
-        });
+        }
+        appManagerService.incRunCount();
+        SplashScreen.hide();
+      });
     });
   }
 

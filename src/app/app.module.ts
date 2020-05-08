@@ -17,6 +17,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient} from '@angular/common/http';
 import { OnboardPageModule } from './pages/onboard/onboard.module';
 import { LoginPageModule } from './pages/login/login.module';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
+import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
+import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
 
 @NgModule({
   declarations: [AppComponent,],
@@ -46,7 +49,11 @@ import { LoginPageModule } from './pages/login/login.module';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFireAuthGuard,
-    AuthenticationService
+    AuthenticationService,
+    FirebaseAnalytics,
+    FirebaseCrashlytics,
+    FirebaseConfig
+
   ],
   bootstrap: [AppComponent]
 })

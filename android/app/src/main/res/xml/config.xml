@@ -12,6 +12,10 @@
     <param name="onload" value="$FIREBASE_ANALYTICS_COLLECTION_ENABLED"/>
   </feature>
 
+  <feature name="FirebaseConfig">
+    <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseConfigPlugin"/>
+  </feature>
+
   <feature name="UniversalAnalytics">
     <param name="android-package" value="com.danielcwilson.plugins.analytics.UniversalAnalyticsPlugin"/>
   </feature>

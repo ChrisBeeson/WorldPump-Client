@@ -42,11 +42,12 @@ export class AppComponent {
       // Here we will check if the user is already logged in
       // because we don't want to ask users to log in each time they open the app
 
+      /*
       this.platform.resume.subscribe(async () => {
         console.log('Resume event detected');
         profileService.updateProfile();
       });
-
+*/
       // navigate new users to onboarding
       appManagerService.runCount().then(count => {
         switch (count) {

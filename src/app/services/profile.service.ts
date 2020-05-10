@@ -7,7 +7,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService } from './authentication.service';
 import { Observable, BehaviorSubject, merge } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
-import { Globalization } from '@ionic-native/globalization';
+import { Globalization } from '@ionic-native/globalization/ngx';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Profile } from '../models/user';
@@ -92,9 +92,12 @@ export class ProfileService {
    // if (user) {
       try {
         await this._profileDoc.set({
+          pushNotifications:{
           push_notification_token: token,
           push_notification_updated_at: firebase.firestore.FieldValue.serverTimestamp()
-        });
+          }
+        }, 
+        {merge: true});
       } catch {
         console.log('error updating profile');
       }
@@ -106,5 +109,23 @@ export class ProfileService {
   async updateGlobalization() {  
     const currentDatePattern = await this.globalization.getDatePattern( { formatLength: 'short', selector: 'date and time' });
     console.log(currentDatePattern);
+    // {"pattern":"d/M/yy, h:mm a","timezone":"AEST","iana_timezone":"Australia/Brisbane","utc_offset":36000,"dst_offset":0}
+
+    const UTC_offset_hours = currentDatePattern.utc_offset/(60*60);
+    let prefix = '';
+    if (UTC_offset_hours <0) {prefix ='-';}
+    if (UTC_offset_hours >0) {prefix ='+';}
+    const UTC_offset = prefix+UTC_offset_hours;
+
+    await this._profileDoc.set({
+      timezone: {
+      utc_offset:UTC_offset,
+      timezone:currentDatePattern.timezone,
+      iana_timezone:currentDatePattern.iana_timezone,
+      dst_offset:currentDatePattern.dst_offset
+      }
+    }, 
+    {merge: true});
+
   }
 }

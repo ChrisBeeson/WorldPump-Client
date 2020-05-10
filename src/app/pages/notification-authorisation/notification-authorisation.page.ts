@@ -30,11 +30,13 @@ export class NotificationAuthorisationPage implements OnInit {
           case 1: {
             this.slides.lockSwipes(true);
             this.messagingService.requestPermission().then(resolve => {
+              this.slides.lockSwipes(false);
               this.slides.slideNext();
             })
           }
         }
      });
+
     }
     )
   }

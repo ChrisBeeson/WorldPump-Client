@@ -23,7 +23,7 @@ export class MessagingService {
     PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
         console.log("PushNotification")
-        profileService.updatePushNotificationToken(token.toString());
+        profileService.updatePushNotificationToken(token.value);
       })
 
     PushNotifications.addListener('registrationError',

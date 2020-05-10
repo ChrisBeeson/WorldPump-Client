@@ -1,33 +1,39 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
+import { ProfileService } from './profile.service';
+import { FCM } from "capacitor-fcm";
+const fcm = new FCM();
 
 import {
   Plugins,
   PushNotification,
   PushNotificationToken,
-  PushNotificationActionPerformed } from '@capacitor/core';
+  PushNotificationActionPerformed
+} from '@capacitor/core';
 
-  const { PushNotifications} = Plugins;
+const { PushNotifications } = Plugins;
 
 @Injectable()
 export class MessagingService {
 
   currentMessage = new BehaviorSubject(null);
 
-  constructor() {
+  constructor(private profileService:ProfileService) {
 
     PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
+        console.log("PushNotification")
+        profileService.updatePushNotificationToken(token.toString());
       })
 
-      PushNotifications.addListener('registrationError',
+    PushNotifications.addListener('registrationError',
       (error: any) => {
         alert('Error on registration: ' + JSON.stringify(error));
-       console.log('Error on registration: ' + JSON.stringify(error));
+        console.log('Error on registration: ' + JSON.stringify(error));
       }
     );
 
-        // Show us the notification payload if the app is open on our device
+    // Show us the notification payload if the app is open on our device
     PushNotifications.addListener('pushNotificationReceived',
       (notification: PushNotification) => {
         alert('Push received: ' + JSON.stringify(notification));
@@ -44,20 +50,25 @@ export class MessagingService {
 
   }
 
-public requestPermission() {
+  public requestPermission(): Promise<boolean> {
+    return PushNotifications.requestPermission().then(result => {
+      if (result.granted) {
+        console.log('Push permission granted');
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+        return Promise.resolve(true);
 
-  PushNotifications.requestPermission().then( result => {
-    if (result.granted) {
-      console.log('Push permission granted');
-      // Register with Apple / Google to receive push via APNS/FCM
-      PushNotifications.register();
+      } else {
+        // Show some error
+        console.log('Push permission rejected');
+        return Promise.resolve(false);
+      }
+    });
+  }
 
-    } else {
-      // Show some error
-      console.log('Push permission rejected');
-    }
-  });
-}
+  public updateSubscribedTopics() {
+    
+  //  fcm.subscribeTo({ topic: timezone});
 
-
+  }
 }

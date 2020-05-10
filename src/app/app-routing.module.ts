@@ -1,31 +1,36 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './services/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { RunCountGuard } from './guards/run-count.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/onboard', pathMatch: 'full' },
 
   {
     path: 'onboard',
     loadChildren: () =>
-      import('./pages/onboard/onboard.module').then(m => m.OnboardPageModule)
+      import('./pages/onboard/onboard.module').then(m => m.OnboardPageModule),
+    canActivate: [RunCountGuard]
   },
   {
     path: 'login',
     loadChildren: () =>
       import('./pages/login/login.module').then(m => m.LoginPageModule)
+      // todo: Guard that requires user to be logged out
   },
 
-  { 
+  {
     path: 'notification-authorisation',
-  loadChildren: () =>
-  import('./pages/notification-authorisation/notification-authorisation.module').then(m => m.NotificationAuthorisationPageModule) 
-},
+    loadChildren: () =>
+      import('./pages/notification-authorisation/notification-authorisation.module').then(m => m.NotificationAuthorisationPageModule),
+    canActivate: [AuthGuard]
+  },
 
-  { 
-    path: 'wait', 
-  loadChildren: () =>
-  import('./pages/wait/wait.module').then(m => m.WaitPageModule) 
+  {
+    path: 'wait',
+    loadChildren: () =>
+      import('./pages/wait/wait.module').then(m => m.WaitPageModule),
+    canActivate: [AuthGuard]
   },
 
   {
@@ -34,7 +39,7 @@ const routes: Routes = [
       import('./pages/workout/lobby/lobby.module').then(m => m.LobbyPageModule),
     canActivate: [AuthGuard]
   },
-  
+
   {
     path: 'profile',
     loadChildren: () =>
@@ -65,4 +70,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

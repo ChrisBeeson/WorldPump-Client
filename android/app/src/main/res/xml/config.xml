@@ -2,6 +2,11 @@
 <widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <access origin="*" />
   
+  <feature name="FacebookConnectPlugin">
+    <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   <feature name="FCMPlugin">
     <param name="android-package" value="com.gae.scaffolder.plugin.FCMPlugin"/>
     <param name="onload" value="true"/>
@@ -14,6 +19,19 @@
 
   <feature name="FirebaseConfig">
     <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseConfigPlugin"/>
+  </feature>
+
+  <feature name="FirebaseCrashlytics">
+    <param name="android-package" value="uk.co.reallysmall.cordova.plugin.firebase.crashlytics.FirebaseCrashlyticsPlugin"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+  <feature name="FirebaseDynamicLinks">
+    <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseDynamicLinksPlugin"/>
+  </feature>
+
+  <feature name="Globalization">
+    <param name="android-package" value="org.apache.cordova.globalization.Globalization"/>
   </feature>
 
   <feature name="UniversalAnalytics">

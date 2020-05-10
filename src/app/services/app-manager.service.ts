@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
+import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links/ngx';
 const { Storage } = Plugins;
 
 @Injectable({
@@ -7,7 +8,12 @@ const { Storage } = Plugins;
 })
 export class AppManagerService {
 
-  constructor() { }
+  constructor(private firebaseDynamicLinks: FirebaseDynamicLinks) { 
+
+    this.firebaseDynamicLinks.onDynamicLink()
+  .subscribe((res: any) => console.log(res), (error:any) => console.log(error));
+  
+  }
 
 
   public runCount(): Promise<number> {

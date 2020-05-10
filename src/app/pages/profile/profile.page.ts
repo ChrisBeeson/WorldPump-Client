@@ -21,11 +21,7 @@ export class ProfilePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.profileService.getUserProfile().then(profile$ => {
-      profile$.subscribe(userProfile => {
-        this.userProfile = userProfile;
-      });
-    });
+
   }
 
   async logOut(): Promise<void> {

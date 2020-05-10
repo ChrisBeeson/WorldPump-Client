@@ -51,16 +51,6 @@ export class OnboardPage implements OnInit, AfterViewInit {
      });
     }
     )
-/*
-      changes.a = this.slides.getActiveIndex.then(currentSlide => {
-
-
-
-      })
-      console.log("Slider Changed to index:"+this.slides.getActiveIndex);
-
-*/
-
   }
 
   skipWalkthrough(): void {

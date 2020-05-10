@@ -10,16 +10,26 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { environment } from 'src/environments/environment';
-import { AuthenticationService } from './services/authentication.service';
 import { ComponentsModule } from './components/components.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient} from '@angular/common/http';
-import { OnboardPageModule } from './pages/onboard/onboard.module';
-import { LoginPageModule } from './pages/login/login.module';
+
 import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
 import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
 import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
+import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
+import { Globalization } from '@ionic-native/globalization';
+
+import { OnboardPageModule } from './pages/onboard/onboard.module';
+import { LoginPageModule } from './pages/login/login.module';
+
+import { AuthenticationService } from './services/authentication.service';
+import { AppManagerService } from './services/app-manager.service';
+import { ProfileService } from './services/profile.service';
+import { MessagingService } from './services/messaging.service';
+
 
 @NgModule({
   declarations: [AppComponent,],
@@ -29,6 +39,7 @@ import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
+  //  Firebase.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireMessagingModule,
@@ -49,10 +60,16 @@ import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFireAuthGuard,
-    AuthenticationService,
     FirebaseAnalytics,
     FirebaseCrashlytics,
-    FirebaseConfig
+    FirebaseConfig,
+    FirebaseDynamicLinks,
+    AppManagerService,
+    Facebook,
+    AuthenticationService,
+    ProfileService,
+    MessagingService,
+    Globalization
 
   ],
   bootstrap: [AppComponent]

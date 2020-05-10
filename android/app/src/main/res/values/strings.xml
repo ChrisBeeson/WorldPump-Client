@@ -4,4 +4,7 @@
     <string name="title_activity_main">WorldPump</string>
     <string name="package_name">com.andris.worldpump</string>
     <string name="custom_url_scheme">com.andris.worldpump</string>
+    <string name="fb_app_id">1129410174106089</string>
+    <string name="fb_app_name">WorldPump</string>
 </resources>
+    

@@ -9,13 +9,17 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
-
+    implementation project(':capacitor-fcm')
+    implementation "com.facebook.android:facebook-android-sdk:5.13.0"
     implementation "com.google.firebase:firebase-messaging:19.0.0"
     implementation "com.google.firebase:firebase-analytics:17.4.+"
     implementation "com.google.firebase:firebase-config:19.1.+"
+    implementation "com.google.firebase:firebase-analytics:17.2.1"
+    implementation "com.google.firebase:firebase-dynamic-links:19.1.+"
     implementation "com.google.android.gms:play-services-analytics:11.0.1"
 }
 apply from: "../../node_modules/cordova-plugin-fcm-with-dependecy-updated/src/android/FCMPlugin.gradle"
+apply from: "../../node_modules/cordova-plugin-firebase-crashlytics/firebase-crashlytics.gradle"
 apply from: "../../node_modules/cordova-support-google-services/build.gradle"
 
 if (hasProperty('postBuildExtras')) {

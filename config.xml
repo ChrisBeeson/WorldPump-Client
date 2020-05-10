@@ -99,4 +99,11 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <universal-links>
+        <host name="worldpump.page.link" scheme="https" />
+        <host name="worldpump-pandemic.firebaseapp.com" scheme="https">
+            <path url="/__/auth/callback" />
+        </host>
+    </universal-links>
+    <preference name="AndroidLaunchMode" value="singleTask" />
 </widget>

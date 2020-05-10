@@ -3,10 +3,11 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService } from './authentication.service';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, merge } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
-
+import { Globalization } from '@ionic-native/globalization';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Profile } from '../models/user';
@@ -15,40 +16,48 @@ import { Profile } from '../models/user';
   providedIn: 'root'
 })
 export class ProfileService {
-  private userProfile: AngularFirestoreDocument<Profile>;
+  private userProfile: any;
   private currentUser: firebase.User;
-  public authenticatedProfile$: Observable<Profile>; 
-
-
+  public authenticatedProfile$: BehaviorSubject<any | null> = new BehaviorSubject<any | null>(null);
+  private _profileDoc;
+  //public authenticatedProfile$: Observable<any | null> = new Observable<any | null>(null);
 
   constructor(
     private firestore: AngularFirestore,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private afAuth: AngularFireAuth,
+    private globalization: Globalization
   ) {
 
-    this.authenticatedProfile$ = this.authService.user$.pipe(
-      switchMap(user => {
-        return <Observable<Profile>>this.firestore.doc('profiles/'+user).valueChanges();
-      })
-    )
-    this.authenticatedProfile$.subscribe(profile => console.log("Profile :"+profile));
+    this.authService.loggedIn.subscribe(loggedIn => {
+      console.log("[profileService] LoggedIn changed");
+      this.getUserProfile();
+    });
+
   }
 
-  async getUserProfile(): Promise<Observable<Profile>> {
+  async getUserProfile() {
     const user: firebase.User = await this.authService.getUser();
-    this.currentUser = user;
-    this.userProfile = this.firestore.doc(`profiles/${user.uid}`);
-    return this.userProfile.valueChanges();
+    if (user) {
+      this.currentUser = user;
+      this.userProfile = await this.firestore.collection("profiles").doc(user.uid).get();
+      this.authenticatedProfile$.next(this.userProfile); //this.firestore.collection("profiles").doc(user.uid).valueChanges();
+      this._profileDoc = this.firestore.collection("profiles").doc(user.uid);
+      this.updateProfile();
+    }
   }
 
-  isNotificationsEnabled(): Promise<boolean> {
-   //(this.authenticatedProfile$['token'] !== null) return true else return false;
+  public updateProfile() {
+    this.updateGlobalization();
+  }
 
-   return Promise.resolve(true);
+  isNotificationsEnabled(): boolean {
+    //(this.authenticatedProfile$['token'] !== null) return true else return false;
+    return (this.userProfile.notificationToken !== null);
   }
 
   updateName(fullName: string): Promise<void> {
-    return this.userProfile.update({ fullName });
+    return this._profileDoc.update({ fullName });
   }
 
   async updateEmail(newEmail: string, password: string): Promise<void> {
@@ -65,10 +74,7 @@ export class ProfileService {
     }
   }
 
-  async updatePassword(
-    newPassword: string,
-    oldPassword: string
-  ): Promise<void> {
+  async updatePassword( newPassword: string, oldPassword: string): Promise<void> {
     const credential: firebase.auth.AuthCredential = firebase.auth.EmailAuthProvider.credential(
       this.currentUser.email,
       oldPassword
@@ -79,5 +85,26 @@ export class ProfileService {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  public async updatePushNotificationToken(token: String) {
+   // const user: firebase.User = await this.authService.getUser();
+   // if (user) {
+      try {
+        await this._profileDoc.set({
+          push_notification_token: token,
+          push_notification_updated_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } catch {
+        console.log('error updating profile');
+      }
+//    } else {
+//      console.exception('[ProfileService] updatePushNotificationToken - User is null');
+//    }
+  }
+
+  async updateGlobalization() {  
+    const currentDatePattern = await this.globalization.getDatePattern( { formatLength: 'short', selector: 'date and time' });
+    console.log(currentDatePattern);
   }
 }

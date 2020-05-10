@@ -4,5 +4,8 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
-  "cordova": {}
+  "cordova": {},
+  "ios": {
+    "cordovaLinkerFlags": ["-ObjC"]
+  }
 }

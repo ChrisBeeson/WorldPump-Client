@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
       { type: 'pattern', message: 'Enter a valid email.' }
     ],
     'password': [
-      { type: 'minlength', message: 'Password must be at least 5 characters long.' }
+      { type: 'minlength', message: 'Password must be at least 6 characters long.' }
     ]
   };
 
@@ -34,8 +34,17 @@ export class LoginPage implements OnInit {
     public router: Router,
     public menu: MenuController,
     public toastController: ToastController,
-    public profileService: ProfileService
+    public profileService: ProfileService,
   ) {
+
+    this.profileService.authenticatedProfile$.subscribe(profile => {
+      console.log("[Login Page] has new authenticatedProfile$");
+      this.attemptingLogin = false;
+      if (profile) {
+        this.router.navigate(["/notification-authorisation"]);
+      }
+    });
+
 
     this.loginForm = new FormGroup({
       'email': new FormControl('', Validators.compose([
@@ -43,7 +52,7 @@ export class LoginPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
       'password': new FormControl('', Validators.compose([
-        Validators.minLength(5),
+        Validators.minLength(6),
         Validators.required
       ]))
     });
@@ -77,6 +86,7 @@ export class LoginPage implements OnInit {
   async loginAuthenticated() {
     // now navigate to wait / notification request
     // get profile
+    /*
     const token = await this.profileService.isNotificationsEnabled();
     this.attemptingLogin = false;
     if (token) {
@@ -84,11 +94,8 @@ export class LoginPage implements OnInit {
     } else {
       this.router.navigate(["/notification-authorisation"]);
     }
-
+*/
   }
-
-
-
 
   goToForgotPassword(): void {
     //todo: forgotpassword
@@ -98,7 +105,8 @@ export class LoginPage implements OnInit {
   doFacebookLogin(): void {
     console.log('facebook login');
     this.attemptingLogin = true;
-    this.authService.facebookLogin()
+    this.authService.facebookLogin();
+    /*
       .then(res => {
         this.attemptingLogin = false;
         this.router.navigate(["/home"]);
@@ -110,6 +118,7 @@ export class LoginPage implements OnInit {
           duration: 2000
         });
       });
+      */
   }
 
 

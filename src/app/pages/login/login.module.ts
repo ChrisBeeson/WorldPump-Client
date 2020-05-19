@@ -26,7 +26,6 @@ const routes: Routes = [
   declarations: [LoginPage],
   exports: [
     LoginPage
-
   ]
 })
 export class LoginPageModule {}

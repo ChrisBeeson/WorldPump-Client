@@ -49,6 +49,7 @@ export class AppComponent {
       });
 */
       // navigate new users to onboarding
+      /*
       appManagerService.runCount().then(count => {
         switch (count) {
           case 0: {
@@ -63,7 +64,9 @@ export class AppComponent {
         appManagerService.incRunCount();
         SplashScreen.hide();
       });
+      */
     });
+    
   }
 
   ngOnInit() {

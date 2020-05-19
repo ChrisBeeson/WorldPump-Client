@@ -9,6 +9,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -43,6 +44,7 @@ import { MessagingService } from './services/messaging.service';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireMessagingModule,
+    AngularFireFunctionsModule,
     ComponentsModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -54,7 +56,7 @@ import { MessagingService } from './services/messaging.service';
         defaultLanguage: 'en'
     }),
     OnboardPageModule,
-    LoginPageModule
+    LoginPageModule,
   
   ],
   providers: [

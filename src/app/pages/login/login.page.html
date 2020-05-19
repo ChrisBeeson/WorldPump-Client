@@ -1,67 +1,69 @@
 
-      <h1 class="ion-text-center" style="padding-bottom:15%">Log in to get going</h1>
-      
-  <div class="login-content">
+<h1 class="ion-text-center" style="padding-bottom:15%">Log in to get going</h1>
+<div class="login-content">
   <div class="social-auth-options">
 
-<ion-card class="card">
-  <ion-card-content >
-    <ion-button class="social-auth-btn "expand="block" color="facebook" (click)="doFacebookLogin()">
-      Log In with Facebook</ion-button>
-      <div  style="padding-bottom:5px;" ></div>
-    <ion-button class="social-auth-btn " expand="block" color="twitter" (click)="doTwitterLogin()">Log
-      In with Twitter</ion-button>
-  </ion-card-content>
-</ion-card>
+    <ion-card class="card">
+      <ion-card-content>
+        <ion-button class="social-auth-btn " expand="block" color="facebook" (click)="doFacebookLogin()">
+          Log In with Facebook</ion-button>
+        <div style="padding-bottom:5px;"></div>
+        <ion-button class="social-auth-btn " expand="block" color="twitter" (click)="doTwitterLogin()">Log
+          In with Twitter</ion-button>
+      </ion-card-content>
+    </ion-card>
 
-  <div style="padding:10px" >
-    <h5>Or with email</h5>
+    <div style="padding:10px">
+      <h5>Or with email</h5>
+    </div>
   </div>
-</div>
 
 
-<ion-card class="card">
-  <ion-card-content>
-    <form [formGroup]="loginForm" (ngSubmit)="doEmailLogin()">
+  <ion-card class="card">
+    <ion-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="doEmailLogin()">
 
-      <ion-list style="background:white; padding-top:3px; padding-bottom: 3px">
-        <ion-item color="primary" class="ion-no-padding">
-          <ion-input  type="email" placeholder="Email" formControlName="email" clearInput autocapitalize="off" inputmode="email" color="dark"></ion-input>
-        </ion-item>
+        <ion-list style="background:white; padding-top:3px; padding-bottom: 3px">
+          <ion-item color="primary" class="ion-no-padding">
+            <ion-input type="email" placeholder="Email" formControlName="email" clearInput autocapitalize="off"
+              inputmode="email" color="dark"></ion-input>
+          </ion-item>
 
-        <div class="error-container">
-          <ng-container *ngFor="let validation of validation_messages.email">
-            <div class="error-message"
-              *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
-              <span>{{ validation.message }}</span>
-            </div>
-          </ng-container>
-        </div>
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validation_messages.email">
+              <div class="error-message"
+                *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
 
-        <ion-item color="primary" class="ion-no-padding">
-          <app-show-hide-password class="input-item">
-            <ion-input type="password" placeholder="Password" fill="clear" formControlName="password" color="dark"></ion-input>
-          </app-show-hide-password>
-        </ion-item>
+          <ion-item color="primary" class="ion-no-padding">
+            <app-show-hide-password class="input-item">
+              <ion-input type="password" placeholder="Password" fill="clear" formControlName="password" color="dark">
+              </ion-input>
+            </app-show-hide-password>
+          </ion-item>
 
 
-        <div class="error-container">
-          <ng-container *ngFor="let validation of validation_messages.password">
-            <div class="error-message"
-              *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
-              <span>{{ validation.message }}</span>
-            </div>
-          </ng-container>
-        </div>
-      </ion-list>
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validation_messages.password">
+              <div class="error-message"
+                *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+        </ion-list>
 
-      <ion-button color="dark" type="submit" expand="block" [disabled]="!loginForm.valid">Sign Up / Log in</ion-button>
-    
-    </form>
-  </ion-card-content>
-</ion-card>
+        <ion-button color="dark" type="submit" expand="block" [disabled]="!loginForm.valid">Sign Up / Log in
+        </ion-button>
 
-<div *ngIf="attemptingLogin">
-  <ion-progress-bar type="indeterminate"></ion-progress-bar>
-</div>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="attemptingLogin">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </div>
 </div>

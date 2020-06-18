@@ -1,11 +1,10 @@
 # WorldPump Client
+## Stack
 - Angular
 - Ionic
-
-## Services
 - AngularFirestore
 - Facebook Authentication
-- Cloud Messaging
+- Firebase Cloud Messaging
 - Firebase Analytics
 - Firebase Crashlytics
 - Firebase DynamicLinks

@@ -10,6 +10,7 @@ import { ToastController, IonSlides } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Pump, Workout } from 'src/app/models/interfaces';
 
+// Test
 @Component({
   selector: 'app-rundown',
   templateUrl: './rundown.page.html',

@@ -6,6 +6,7 @@ const { Storage } = Plugins;
 @Injectable({
   providedIn: 'root'
 })
+
 export class AppManagerService {
 
   constructor(private firebaseDynamicLinks: FirebaseDynamicLinks) { 

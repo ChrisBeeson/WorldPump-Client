@@ -30,8 +30,10 @@ export class ProfileService {
   ) {
 
     this.authService.loggedIn.subscribe(loggedIn => {
+      if (loggedIn){
       console.log("[profileService] LoggedIn changed");
       this.getUserProfile();
+      }
     });
 
   }

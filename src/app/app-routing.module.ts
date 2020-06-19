@@ -34,13 +34,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'lobby',
-    loadChildren: () =>
-      import('./pages/workout/lobby/lobby.module').then(m => m.LobbyPageModule),
-    canActivate: [AuthGuard]
-  },
-
-  {
     path: 'profile',
     loadChildren: () =>
       import('./pages/profile/profile.module').then(m => m.ProfilePageModule),
@@ -50,7 +43,7 @@ const routes: Routes = [
   {
     path: 'rundown',
     loadChildren: () =>
-      import('./pages/rundown/rundown.module').then(m => m.RundownPageModule),
+      import('./pages/rundown/rundown.module').then(m => m.RundownModule),
       canActivate: [AuthGuard]
   },
 

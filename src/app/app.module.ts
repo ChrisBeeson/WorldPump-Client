@@ -11,41 +11,36 @@ import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { environment } from 'src/environments/environment';
-import { ComponentsModule } from './components/components.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient} from '@angular/common/http';
-
 import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
 import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
 import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
 import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { Globalization } from '@ionic-native/globalization/ngx';
-
 import { OnboardPageModule } from './pages/onboard/onboard.module';
 import { LoginPageModule } from './pages/login/login.module';
-
 import { AuthenticationService } from './services/authentication.service';
 import { AppManagerService } from './services/app-manager.service';
 import { ProfileService } from './services/profile.service';
 import { MessagingService } from './services/messaging.service';
+import { RundownModule } from './pages/rundown/rundown.module';
 
 
 @NgModule({
-  declarations: [AppComponent,],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-  //  Firebase.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireMessagingModule,
     AngularFireFunctionsModule,
-    ComponentsModule,
     HttpClientModule,
     TranslateModule.forRoot({
         loader: {
@@ -57,7 +52,7 @@ import { MessagingService } from './services/messaging.service';
     }),
     OnboardPageModule,
     LoginPageModule,
-  
+    RundownModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -71,8 +66,7 @@ import { MessagingService } from './services/messaging.service';
     AuthenticationService,
     ProfileService,
     MessagingService,
-    Globalization
-
+    Globalization,
   ],
   bootstrap: [AppComponent]
 })

@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 //import { CheckboxWrapperComponent } from './checkbox-wrapper/checkbox-wrapper.component';
 import { ShowHidePasswordComponent } from './show-hide-password/show-hide-password.component';
-import { CountdownTimerComponent } from './countdown-timer/countdown-timer.component';
+
 //import { CounterInputComponent } from './counter-input/counter-input.component';
 //import { RatingInputComponent } from './rating-input/rating-input.component';
 //import { GoogleMapComponent } from './google-map/google-map.component';
@@ -20,7 +20,7 @@ import { CountdownTimerComponent } from './countdown-timer/countdown-timer.compo
   declarations: [
    // CheckboxWrapperComponent,
     ShowHidePasswordComponent,
-    CountdownTimerComponent,
+  //  CountdownTimer,
    // CounterInputComponent,
   //  RatingInputComponent,
    // GoogleMapComponent
@@ -28,7 +28,7 @@ import { CountdownTimerComponent } from './countdown-timer/countdown-timer.compo
   exports: [
   //  CheckboxWrapperComponent,
     ShowHidePasswordComponent,
-    CountdownTimerComponent,
+  //  CountdownTimer,
  //   CounterInputComponent,
  //   RatingInputComponent,
   //  GoogleMapComponent

@@ -1,27 +1,43 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>rundown</ion-title>
-
-    <ion-buttons slot="primary">
-      <ion-button (click)="publishGenerateWorkout()">
-        <ion-icon  name="flash"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Rundown</ion-title>
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content>
-  <ion-list>
-    <ion-reorder-group (ionItemReorder)="reorderItems($event)" disabled="false">
 
-      <ion-item *ngFor="let step of rundown">
-        <ion-label>
-       
-        </ion-label>
-        <ion-reorder slot="end"></ion-reorder>
-      </ion-item>
-    </ion-reorder-group>
-  </ion-list>
+<div *ngIf="workoutActive">
+Main workout counter:
+{{ targetDate }}
+</div>
+
+<ion-slides>
+<ion-slide>
+  <app-pump-slide></app-pump-slide>
+</ion-slide>
+<ion-slide>
+  <app-pump-slide></app-pump-slide>
+</ion-slide>
+<ion-slide>
+  <app-pump-slide></app-pump-slide>
+</ion-slide>
+
+</ion-slides>
+
+
+
+
 </ion-content>
+
+<div *ngIf="showDebugToolbar">
+<ion-footer>
+  <ion-toolbar color="warning">
+    <ion-title size="small" >{{this.debugMessage$ | async}}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="publishGenerateWorkout()">
+        <ion-icon name="flash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+</div>

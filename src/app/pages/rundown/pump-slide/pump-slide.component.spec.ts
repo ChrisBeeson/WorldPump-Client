@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PumpCountdownPage } from './pump-countdown.page';
+import { PumpSlideComponent } from './pump-slide.component';
 
-describe('PumpCountdownPage', () => {
-  let component: PumpCountdownPage;
-  let fixture: ComponentFixture<PumpCountdownPage>;
+describe('PumpSlideComponent', () => {
+  let component: PumpSlideComponent;
+  let fixture: ComponentFixture<PumpSlideComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PumpCountdownPage ],
+      declarations: [ PumpSlideComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PumpCountdownPage);
+    fixture = TestBed.createComponent(PumpSlideComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

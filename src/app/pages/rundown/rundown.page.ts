@@ -69,7 +69,7 @@ export class RundownPage implements OnInit {
         return;
       }
       let stepString = step.index + '/' + this.rundownService.stepCount + ': ' + step.name;
-      if (step.pump!== undefined) stepString = stepString.concat('  '+JSON.stringify(step.pump));
+      if (step.pump!== undefined) stepString = stepString.concat('  '+JSON.stringify(step.pump).replace(/['"]+/g,"") );
       this.debugMessage$.next(stepString);
     })
   }

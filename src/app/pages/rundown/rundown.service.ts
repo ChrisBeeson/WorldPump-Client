@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { first, take, tap } from 'rxjs/operators';
+import { first, take, tap, delay, distinct } from 'rxjs/operators';
 import {
   AngularFirestore,
   AngularFirestoreDocument
@@ -20,6 +20,7 @@ export class RundownService {
   private _currentStepIndex = -1;
   private _activeWorkout$: Observable<any>;
 
+  public workoutIsActive = new BehaviorSubject<boolean>(false);
   public currentWorkout$ = new BehaviorSubject<any | null>(null);
   public stepPipe$ = new BehaviorSubject<RundownStep | null>(null);
   public stepCount = 0;
@@ -34,87 +35,73 @@ export class RundownService {
         .limitToLast(1)
     }).valueChanges({ idField: 'uid' });
 
-    this._activeWorkout$.subscribe(item => {
+    this._activeWorkout$.pipe(distinct()).subscribe(item => {
       if (item[0]) {
         this.loadRundownFromWorkout(item[0].uid);
       }
     });
   }
 
-  clearRundown(msg?: string) {
-    if (msg) { console.warn(msg); }
-    this._rundownSequence = null;
-    this._currentStepIndex = -1;
-    this.stepCount = 0
-    this.currentWorkout$.next(null);
-    this.stepPipe$.next(null);
-  }
-
-  setRundownSequence(value: RundownSequence) {
-    if (value) {
-      this._rundownSequence = value;
-      this.update();
-    } else {
-      console.log('[RundownService] Attempting to set the rundown sequence with null');
-    }
-  }
-
   async loadRundownFromWorkout(workout: string) {
     if (!workout) return;
-    if (this.workoutUid == workout) {
-      this.update(); return;
-    };
+    if (this.workoutUid == workout) return;  // value changes on the doc will try to reload.
+
     console.log('[RundownService] Loading New Workout: ' + workout);
 
     const workoutDoc = await this.firestore.collection("workouts").doc(workout).get().toPromise();
     if (!workoutDoc.exists) {
-      this.clearRundown('[RundownService] Workout doesnt exist'); return;
+      console.warn('[RundownService] Workout doesnt exist'); return;
     }
     const workoutData = workoutDoc.data();
     if (!workoutData.active) {
-      this.clearRundown('[RundownService] Workout not active'); return;
+      console.warn('[RundownService] Workout not active'); return;
     }
 
     this.workoutUid = workout;
     this.currentWorkout$.next(workoutData);
-    this.stepCount = workoutData.rundown.length-1;
-    this.setRundownSequence({
+    this.stepCount = workoutData.rundown.length - 1;
+    this._rundownSequence = {
       startAt: workoutData.startAt,
       endAt: workoutData.endAt,
       steps: workoutData.rundown
-    });
+    };
+    this.populatePipes();
   }
 
-  // TODO: update with rxjs delay
+  populatePipes() {
 
-  async populateStepPipe() {
+    // If we've already started emit the current step
+    const currentIndex = this.currentStepIndex();
+    if (currentIndex > -1) {
+      this.stepPipe$.next({ index: currentIndex, ...this._rundownSequence.steps[currentIndex] });
+      this.workoutIsActive.next(true);
+    }
+
+    // Schedule future steps
+    for (let [index, step] of this._rundownSequence.steps.entries()) {
+
+      const stepStartAt = step.startAt.toDate().getTime();
+      const millisFromNow = stepStartAt - Date.now();
+
+      if (millisFromNow > 0) {
+        setTimeout(() => this.stepPipe$.next({ index: index, ...step }), millisFromNow);
+      }
+
+      // If we're not already active schedule when we will be
+      if (index == 0) {
+        setTimeout(() => this.workoutIsActive.next(true), millisFromNow);
+      }
+    }
+
+    // clear workout when we finish
+    const finishInMillis = this._rundownSequence.endAt.toDate().getTime() - Date.now();
+    setTimeout(() => this.clearWorkout(), finishInMillis);
   }
 
-  currentStepIndex(){
-  }
+  currentStepIndex(): number {
 
-  public update() {
-    console.log('[RundownService] Updating: ' + this.workoutUid);
-    const datenow = new Date();
+    const dateNow = new Date;
 
-    if (!this._rundownSequence) {
-      console.log("[RundownService] _rundownSequence is Null: " + this._rundownSequence);
-      return;
-    }
-
-    if (datenow.getTime() >= this._rundownSequence.endAt.toDate().getTime()) {
-      this.clearRundown('[RundownService] Past endAt');
-      return;
-    }
-
-    // 1. if we're before the startTime then we are waiting.
-    if (datenow.getTime() < this._rundownSequence.startAt.toDate().getTime()) {
-      this.stepPipe$.next({ index: -1, name: 'waiting' });
-      this.scheduleNextEvent(0, datenow);
-      return;
-    }
-
-    // 2. Theres a step thats currently active at this point in time, find it
     for (let [index, step] of this._rundownSequence.steps.entries()) {
       // create the endAt if required.
       let endAt: firestore.Timestamp;
@@ -128,19 +115,11 @@ export class RundownService {
         }
       }
 
-      // 3. cue this update function to run again at the start of the next step.
-
-      if (this.dateWithinTimeWindow(datenow, step.startAt.toDate(), endAt.toDate())) {
-        if (this._currentStepIndex !== index) {
-          console.log('[RundownService] Step ' + index + ' of ' + this._rundownSequence.steps.length + ' : ' + this._rundownSequence.steps[index].name);
-          this.stepPipe$.next({ index: index, ...step });
-          this.scheduleNextEvent(index + 1, datenow);
-          this._currentStepIndex = index;
-        }
+      if (this.dateWithinTimeWindow(dateNow, step.startAt.toDate(), endAt.toDate())) {
+        return index;
       }
     }
-
-    // 3. we're done.
+    return -1;
   }
 
   dateWithinTimeWindow(date: Date, start: Date, end: Date): boolean {
@@ -154,17 +133,15 @@ export class RundownService {
     }
   }
 
-  scheduleNextEvent(index: number, currentDate: Date) {
-    let millisToNextEvent = 0;
-    // if the index is greater than the array then goto the endAt
-    if (index > this._rundownSequence.steps.length-1) {
-      millisToNextEvent = this._rundownSequence.endAt.toDate().getTime() - currentDate.getTime();
-    } else {
-      const stepStartAt = this._rundownSequence.steps[index].startAt;
-      millisToNextEvent = stepStartAt.toDate().getTime() - currentDate.getTime();
-    }
-    if (millisToNextEvent < 0) { console.log('[Rundown service] Time to next event is negative') } else {
-      setTimeout(this.update, millisToNextEvent);
-    }
-  };
+  clearWorkout() {
+    console.warn('Clearing out Workout');
+    this._rundownSequence = null;
+    this._currentStepIndex = -1;
+    this.stepCount = 0
+    this.currentWorkout$.next(null);
+    this.stepPipe$.next(null);
+    this.workoutIsActive.next(false);
+    this.workoutUid = null;
+  }
+
 }

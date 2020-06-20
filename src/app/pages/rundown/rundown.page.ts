@@ -9,8 +9,8 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { ToastController, IonSlides } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Pump, Workout } from 'src/app/models/interfaces';
+import { NgSwitchCase } from '@angular/common';
 
-// Test
 @Component({
   selector: 'app-rundown',
   templateUrl: './rundown.page.html',
@@ -20,7 +20,7 @@ export class RundownPage implements OnInit {
 
   slidesOptions: any = {
     zoom: {
-      toggle: false // Disable zooming to prevent weird double tap zomming on slide images
+      toggle: false
     }
   };
 
@@ -37,30 +37,26 @@ export class RundownPage implements OnInit {
   public debugMessage$ = new BehaviorSubject<string>('Debug Bar');
   public currentWorkout: Workout;
 
-  ///   <CountdownTimer targetDate={{this.targetDate}} ></CountdownTimer>
-
   constructor(
-    private firestore: AngularFirestore,
     private rundownService: RundownService,
-    private fns: AngularFireFunctions,
-    private toastController: ToastController
+    private fns: AngularFireFunctions
   ) { }
 
   ngOnInit() {
-
     this.rundownService.currentWorkout$.pipe(distinct()).subscribe(val => {      // can be Null
       if (val) {
         this.debugMessage$.next('Loaded Workout: ' + this.rundownService.workoutUid);
         this.currentWorkout = val;
         this.workoutActive = true;
         this.targetDate = val!.pumps_startAt.toDate().getTime();
-
       } else {
         this.workoutActive = false;
         this.currentWorkout = null;
         this.targetDate = null;
       }
     });
+
+    this.rundownService.workoutIsActive$.subscribe(val => { this.workoutActive = val });
 
     // Debug Bar
     this.rundownService.stepPipe$.subscribe(step => {
@@ -69,19 +65,31 @@ export class RundownPage implements OnInit {
         return;
       }
       let stepString = step.index + '/' + this.rundownService.stepCount + ': ' + step.name;
-      if (step.pump!== undefined) stepString = stepString.concat('  '+JSON.stringify(step.pump).replace(/['"]+/g,"") );
+      if (step.pump !== undefined) stepString = stepString.concat('  ' + JSON.stringify(step.pump).replace(/['"]+/g, ""));
       this.debugMessage$.next(stepString);
-    })
+    });
+
+
+
+    // Slide Controller
+    /*
+    this.rundownService.stepPipe$.pipe(distinct()).subscribe(step => {
+      if (!step) return;
+      if (step.index < 2) {
+        this.slides.slideTo(step.index + 1);
+      }
+    });
+*/
   }
+
 
 
   publishGenerateWorkout() {
     this.debugMessage$.next("generate_workout");
-
     const payload = {
       topic: 'generate_workout',
-      inSeconds: '90', 
-      TminusModifier: '85', // <- the time to the start of the first pump so MUST be greater than 45secs
+      inSeconds: '95',
+      TminusModifier: '85',
       key: 'ch78&*@#$%@32fbcvs0-327ehdu81=-31006*&^%F#dwv'
     }
 

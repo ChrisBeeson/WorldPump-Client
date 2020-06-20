@@ -4,9 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RundownPage } from './rundown.page';
-import { PumpSlideComponent } from './pump-slide/pump-slide.component';
 import { RundownService } from 'src/app/pages/rundown/rundown.service';
 import { CountdownTimer } from './countdown-timer/countdown-timer';
+import { LobbyComponent } from './lobby/lobby.component';
+import { PumpComponent } from './pump/pump.component';
+import { PumpRevealComponent } from './pump-reveal/pump-reveal.component';
+import { WorkoutCountdownComponent } from './workout-countdown/workout-countdown.component';
+import { WorkoutCompleteComponent } from './workout-complete/workout-complete.component';
 
 const routes: Routes = [
   {
@@ -22,7 +26,15 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [RundownPage, PumpSlideComponent, CountdownTimer],
+  declarations: [
+    RundownPage, 
+    CountdownTimer, 
+    LobbyComponent, 
+    WorkoutCountdownComponent,
+    PumpRevealComponent, 
+    PumpComponent, 
+    WorkoutCompleteComponent
+],
   providers:[RundownService]
 })
 export class RundownModule {}

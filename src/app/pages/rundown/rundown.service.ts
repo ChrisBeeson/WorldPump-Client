@@ -20,7 +20,7 @@ export class RundownService {
   private _currentStepIndex = -1;
   private _activeWorkout$: Observable<any>;
 
-  public workoutIsActive = new BehaviorSubject<boolean>(false);
+  public workoutIsActive$ = new BehaviorSubject<boolean>(false);
   public currentWorkout$ = new BehaviorSubject<any | null>(null);
   public stepPipe$ = new BehaviorSubject<RundownStep | null>(null);
   public stepCount = 0;
@@ -74,7 +74,7 @@ export class RundownService {
     const currentIndex = this.currentStepIndex();
     if (currentIndex > -1) {
       this.stepPipe$.next({ index: currentIndex, ...this._rundownSequence.steps[currentIndex] });
-      this.workoutIsActive.next(true);
+      this.workoutIsActive$.next(true);
     }
 
     // Schedule future steps
@@ -89,7 +89,7 @@ export class RundownService {
 
       // If we're not already active schedule when we will be
       if (index == 0) {
-        setTimeout(() => this.workoutIsActive.next(true), millisFromNow);
+        setTimeout(() => this.workoutIsActive$.next(true), millisFromNow);
       }
     }
 
@@ -140,7 +140,7 @@ export class RundownService {
     this.stepCount = 0
     this.currentWorkout$.next(null);
     this.stepPipe$.next(null);
-    this.workoutIsActive.next(false);
+    this.workoutIsActive$.next(false);
     this.workoutUid = null;
   }
 

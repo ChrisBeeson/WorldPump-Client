@@ -21,9 +21,9 @@ export interface Pump {
     display_name:string;
     exercise_required_equiptment:string;
     exercise_uid?: string;
-    duration?: number;
+    duration: number;
     countdown_duration:number;
-    startAt?: firestore.Timestamp;
+    startAt: firestore.Timestamp;
     endAt?: firestore.Timestamp;
 }
 
@@ -31,8 +31,8 @@ export interface Pump {
 export interface RundownStep {
     index: number,
     name: string,
-    type?: string,
-    startAt?: firebase.firestore.Timestamp,
+    type: string,
+    startAt: firebase.firestore.Timestamp,
     endAt?: firebase.firestore.Timestamp,
     pump?: any
   };

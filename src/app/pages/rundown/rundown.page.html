@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <div *ngIf="workoutActive">
     <ion-title class="ion-text-center"><app-countdown-timer targetDate={{targetDate}} ></app-countdown-timer> </ion-title>
+  </div>
   </ion-toolbar>
 </ion-header>
 
@@ -32,7 +34,7 @@ Workout Active
 <ion-footer>
   <ion-toolbar color="warning">
     <ion-title size="small" >{{this.debugMessage$ | async}}</ion-title>
-    <ion-buttons slot="primary">
+    <ion-buttons slot="primary" *ngIf="!workoutActive" >
       <ion-button (click)="publishGenerateWorkout()">
         <ion-icon name="flash"></ion-icon>
       </ion-button>

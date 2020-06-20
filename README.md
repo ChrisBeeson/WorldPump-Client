@@ -2,7 +2,8 @@
 ## Stack
 - Angular
 - Ionic
-- AngularFirestore
+- AngularFirebase
+- Firestore
 - Facebook Authentication
 - Firebase Cloud Messaging
 - Firebase Analytics

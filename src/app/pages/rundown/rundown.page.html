@@ -1,14 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Rundown</ion-title>
+    <ion-title class="ion-text-center"><app-countdown-timer targetDate={{targetDate}} ></app-countdown-timer> </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
 <div *ngIf="workoutActive">
-Main workout counter:
-{{ targetDate }}
+Workout Active
 </div>
 
 <ion-slides>

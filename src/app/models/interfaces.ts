@@ -34,7 +34,7 @@ export interface RundownStep {
     type?: string,
     startAt?: firebase.firestore.Timestamp,
     endAt?: firebase.firestore.Timestamp,
-    data?: any
+    pump?: any
   };
   
   

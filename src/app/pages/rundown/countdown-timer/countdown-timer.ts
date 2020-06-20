@@ -2,42 +2,52 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, interval, BehaviorSubject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 
+const zeroPad = (num, places) => String(num).padStart(places, '0');
+
 @Component({
   selector: 'app-countdown-timer',
   templateUrl: './countdown-timer.html',
   styleUrls: ['./countdown-timer.scss']
 })
+
+
 export class CountdownTimer implements OnInit {
 
-  private _targetDate: number;   //milliseconds
-  private _interval: Observable<any> = interval(1000);
+  private _targetDate: number = 0;  //milliseconds
+  private _interval: Observable<any>;
   private _days: number;
   private _hours: number;
   private _minutes: number;
   private _seconds: number;
-  private _sign: string = '';
+  public isPostive = new BehaviorSubject<boolean>(true);
   public separator = ':';
 
-  public countdownString$: BehaviorSubject<string> = new BehaviorSubject<string>('00:00');
+  private sub;
 
+  public countdownString$ = new BehaviorSubject<string>('00:00');
+
+  
   @Input()
   set targetDate(target: number) {
-    this._targetDate = (target) ? target : Date.now();
+    this._targetDate = target;
+    this.countdownString$.next(this.calcTimeString())
   }
 
   constructor() { }
 
   ngOnInit() {
-    this._interval.pipe(map(x => {
+    this._interval = interval(1000);
+   this._interval.subscribe(x => {
       this.countdownString$.next(this.calcTimeString()); 
     })
-    )
+    
   };
 
   calcTimeString(): string {
+    this.isPostive.next(true);
     let secondsLeft = (Date.now() - this._targetDate) / 1000;
     if (secondsLeft < 0) {
-      this._sign = '-';
+      this.isPostive.next(false);
       secondsLeft = Math.abs(secondsLeft)
     }
 
@@ -47,17 +57,18 @@ export class CountdownTimer implements OnInit {
     secondsLeft -= this._hours * 3600;
     this._minutes = Math.floor(secondsLeft / 60) % 60;
     secondsLeft -= this._minutes * 60;
-    this._seconds = secondsLeft % 60;
+    this._seconds = Math.floor(secondsLeft % 60);
 
-    let returnString = this._sign;
-    if (this._days > 0) returnString += this._days.toString + this.separator;
-    if (this._hours > 0) returnString += this._hours.toString + this.separator;
-    if (this._minutes > 0) returnString += this._minutes.toString + this.separator;
-    returnString += this._seconds;
+    let returnString ="";
+    if (this._days > 0) returnString += zeroPad(this._days,2) + this.separator;
+    if (this._hours > 0) returnString += zeroPad(this._hours,2) + this.separator;
+    if (this._minutes > 0) returnString += zeroPad(this._minutes,2) + this.separator;
+    returnString += zeroPad(this._seconds,2);
 
     return returnString;
   }
 }
+
 
 
 /*

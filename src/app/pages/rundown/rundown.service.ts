@@ -7,7 +7,7 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
-import { RundownSequence, RundownStep } from '../models/interfaces';
+import { RundownSequence, RundownStep } from '../../models/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ import { RundownSequence, RundownStep } from '../models/interfaces';
 export class RundownService {
 
   private _rundownSequence = null;
-  private _workoutUid = null;
+  public workoutUid = null;
   private _currentStepIndex = -1;
   private _activeWorkout$: Observable<any>;
 
@@ -61,7 +61,7 @@ export class RundownService {
 
   async loadRundownFromWorkout(workout: string) {
     if (!workout) return;
-    if (this._workoutUid == workout) {
+    if (this.workoutUid == workout) {
       this.update(); return;
     };
     console.log('[RundownService] Loading New Workout: ' + workout);
@@ -75,9 +75,9 @@ export class RundownService {
       this.clearRundown('[RundownService] Workout not active'); return;
     }
 
-    this._workoutUid = workout;
+    this.workoutUid = workout;
     this.currentWorkout$.next(workoutData);
-    this.stepCount =  workoutData.rundown.length;
+    this.stepCount = workoutData.rundown.length-1;
     this.setRundownSequence({
       startAt: workoutData.startAt,
       endAt: workoutData.endAt,
@@ -85,8 +85,16 @@ export class RundownService {
     });
   }
 
+  // TODO: update with rxjs delay
+
+  async populateStepPipe() {
+  }
+
+  currentStepIndex(){
+  }
+
   public update() {
-    console.log('[RundownService] Updating: ' + this._workoutUid);
+    console.log('[RundownService] Updating: ' + this.workoutUid);
     const datenow = new Date();
 
     if (!this._rundownSequence) {
@@ -101,12 +109,12 @@ export class RundownService {
 
     // 1. if we're before the startTime then we are waiting.
     if (datenow.getTime() < this._rundownSequence.startAt.toDate().getTime()) {
-      this.stepPipe$.next({index:-1,name:'waiting'});
+      this.stepPipe$.next({ index: -1, name: 'waiting' });
       this.scheduleNextEvent(0, datenow);
       return;
     }
 
-    // 2. search for the step that its time window is within the current time.
+    // 2. Theres a step thats currently active at this point in time, find it
     for (let [index, step] of this._rundownSequence.steps.entries()) {
       // create the endAt if required.
       let endAt: firestore.Timestamp;
@@ -121,10 +129,11 @@ export class RundownService {
       }
 
       // 3. cue this update function to run again at the start of the next step.
+
       if (this.dateWithinTimeWindow(datenow, step.startAt.toDate(), endAt.toDate())) {
         if (this._currentStepIndex !== index) {
           console.log('[RundownService] Step ' + index + ' of ' + this._rundownSequence.steps.length + ' : ' + this._rundownSequence.steps[index].name);
-          this.stepPipe$.next({index:index, ...step});
+          this.stepPipe$.next({ index: index, ...step });
           this.scheduleNextEvent(index + 1, datenow);
           this._currentStepIndex = index;
         }
@@ -135,7 +144,7 @@ export class RundownService {
   }
 
   dateWithinTimeWindow(date: Date, start: Date, end: Date): boolean {
-    //    console.log('Current Time: '+date.toLocaleTimeString() +' Start: '+start.toLocaleTimeString()+' End: '+ end.toLocaleTimeString());
+    // console.log('Current Time: '+date.toLocaleTimeString() +' Start: '+start.toLocaleTimeString()+' End: '+ end.toLocaleTimeString());
     if ((date.getTime() >= start.getTime()) && (date.getTime() <= end.getTime())) {
       // console.log('True');
       return true;
@@ -148,17 +157,14 @@ export class RundownService {
   scheduleNextEvent(index: number, currentDate: Date) {
     let millisToNextEvent = 0;
     // if the index is greater than the array then goto the endAt
-    if (index > this._rundownSequence.steps.length) {
+    if (index > this._rundownSequence.steps.length-1) {
       millisToNextEvent = this._rundownSequence.endAt.toDate().getTime() - currentDate.getTime();
     } else {
       const stepStartAt = this._rundownSequence.steps[index].startAt;
       millisToNextEvent = stepStartAt.toDate().getTime() - currentDate.getTime();
     }
-    if (millisToNextEvent < 0) { console.exception('[Rundown service] Time to next event is negative') } else {
+    if (millisToNextEvent < 0) { console.log('[Rundown service] Time to next event is negative') } else {
       setTimeout(this.update, millisToNextEvent);
     }
   };
-
-
-
 }

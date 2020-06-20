@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RundownPage } from './rundown.page';
 import { PumpSlideComponent } from './pump-slide/pump-slide.component';
-import { RundownService } from 'src/app/services/rundown.service';
+import { RundownService } from 'src/app/pages/rundown/rundown.service';
 import { CountdownTimer } from './countdown-timer/countdown-timer';
 
 const routes: Routes = [

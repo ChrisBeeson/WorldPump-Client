@@ -16,7 +16,6 @@ export class PumpComponent implements OnInit {
   @Input()
   set pump(pump: Pump) {
     if (pump) {
-      console.log('[pumpComponent] Pump = '+pump);
     this._pump = pump;
     this.pumpName = pump.display_name;
     this.pumpStartTime = pump.startAt.toDate().getTime();

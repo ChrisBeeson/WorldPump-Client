@@ -17,7 +17,6 @@ export class RundownService {
 
   private _rundownSequence = null;
   public workoutUid = null;
-  private _currentStepIndex = -1;
   private _activeWorkout$: Observable<any>;
 
   public workoutIsActive$ = new BehaviorSubject<boolean>(false);
@@ -134,10 +133,8 @@ export class RundownService {
   }
 
   clearWorkout() {
-    console.warn('Clearing out Workout');
     this._rundownSequence = null;
-    this._currentStepIndex = -1;
-    this.stepCount = 0
+    this.stepCount = 0;
     this.currentWorkout$.next(null);
     this.stepPipe$.next(null);
     this.workoutIsActive$.next(false);

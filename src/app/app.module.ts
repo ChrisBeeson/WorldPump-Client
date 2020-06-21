@@ -24,7 +24,7 @@ import { OnboardPageModule } from './pages/onboard/onboard.module';
 import { LoginPageModule } from './pages/login/login.module';
 import { AuthenticationService } from './services/authentication.service';
 import { AppManagerService } from './services/app-manager.service';
-import { ProfileService } from './services/profile.service';
+import { ProfileService } from './pages/profile/profile.service';
 import { MessagingService } from './services/messaging.service';
 import { RundownModule } from './pages/rundown/rundown.module';
 

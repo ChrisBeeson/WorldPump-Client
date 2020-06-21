@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessagingService } from '../../services/messaging.service';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +17,9 @@ export class NotificationAuthorisationPage implements OnInit {
 
   constructor(
     private messagingService:MessagingService,
-    private router: Router,) { }
+    private router: Router,
+    private platform: Platform
+    ) { }
 
   ngOnInit(): void {
 
@@ -32,6 +34,12 @@ export class NotificationAuthorisationPage implements OnInit {
         switch (index) {
           case 1: {
             this.slides.lockSwipes(true);
+
+            if (this.platform.is("desktop")) {
+              this.router.navigate(["/rundown"]);
+              return;
+            }
+
             this.messagingService.requestPermission().then(resolve => {
               this.slides.lockSwipes(false);
               this.slides.slideNext(); // thank you

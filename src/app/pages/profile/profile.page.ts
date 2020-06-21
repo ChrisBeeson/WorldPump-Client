@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
-import { ProfileService } from 'src/app/services/profile.service';
+import { ProfileService } from 'src/app/pages/profile/profile.service';
 import { AlertController } from '@ionic/angular';
 import { Profile } from 'src/app/models/user';
 

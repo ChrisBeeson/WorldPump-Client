@@ -11,7 +11,7 @@ import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
 import { AppManagerService } from './services/app-manager.service';
 import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
 import { AuthenticationService } from './services/authentication.service';
-import { ProfileService } from './services/profile.service';
+import { ProfileService } from './pages/profile/profile.service';
 
 
 @Component({

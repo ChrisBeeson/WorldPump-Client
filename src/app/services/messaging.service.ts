@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
-import { ProfileService } from './profile.service';
+import { ProfileService } from '../pages/profile/profile.service';
 import { FCM } from "capacitor-fcm";
 const fcm = new FCM();
 

@@ -4,13 +4,13 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { Observable, BehaviorSubject, merge } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
 import { Globalization } from '@ionic-native/globalization/ngx';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { Profile } from '../models/user';
+import { Profile } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'

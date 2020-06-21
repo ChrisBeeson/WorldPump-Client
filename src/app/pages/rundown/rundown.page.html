@@ -10,11 +10,13 @@
 
 <ion-content>
 
+  <!-- 
   <div *ngIf="workoutActive">
     <ion-chip color="warning" mode="ios" outline="true">
       <ion-label>Workout Active</ion-label>
     </ion-chip> 
   </div>
+-->
   
   <ion-slides #slides class="rundown-slides" pager="false" [options]="slidesOptions" [hidden]="!workoutActive">
     <ion-slide class="slide">
@@ -36,8 +38,6 @@
       </ion-slide>
     
     </ion-slides>
-  
-
 </ion-content>
 
 <div *ngIf="showDebugToolbar">

@@ -3,7 +3,7 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthenticationService } from '../../services/authentication.service'
-import { ProfileService } from '../../services/profile.service'
+import { ProfileService } from '../profile/profile.service'
 import { ToastController } from '@ionic/angular';
 import { Profile } from 'src/app/models/user';
 

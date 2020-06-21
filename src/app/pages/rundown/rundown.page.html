@@ -1,32 +1,42 @@
 <ion-header>
   <ion-toolbar>
     <div *ngIf="workoutActive">
-    <ion-title class="ion-text-center"><app-countdown-timer targetDate={{targetDate}} ></app-countdown-timer> </ion-title>
+    <ion-title class="ion-text-center">
+      <app-countdown-timer targetDate={{targetDate}} ></app-countdown-timer> 
+    </ion-title>
   </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-<div *ngIf="workoutActive">
-Workout Active
-</div>
-
-<ion-slides>
-<ion-slide>
-  <app-pump-slide></app-pump-slide>
-</ion-slide>
-<ion-slide>
-  <app-pump-slide></app-pump-slide>
-</ion-slide>
-<ion-slide>
-  <app-pump-slide></app-pump-slide>
-</ion-slide>
-
-</ion-slides>
+  <div *ngIf="workoutActive">
+    <ion-chip color="warning" mode="ios" outline="true">
+      <ion-label>Workout Active</ion-label>
+    </ion-chip> 
+  </div>
+  
+  <ion-slides #slides class="rundown-slides" pager="false" [options]="slidesOptions" [hidden]="!workoutActive">
+    <ion-slide class="slide">
+      <app-lobby></app-lobby>
+    </ion-slide>
 
 
-
+    <ion-slide>
+      <app-workout-countdown targetDate={{targetDate}}></app-workout-countdown>
+    </ion-slide>
+    
+    <ion-slide *ngFor="let pump of currentWorkout?.pumps">
+      <app-pump [pump]="pump"></app-pump>
+      </ion-slide>
+      
+   
+      <ion-slide>
+        <app-workout-complete></app-workout-complete>
+      </ion-slide>
+    
+    </ion-slides>
+  
 
 </ion-content>
 

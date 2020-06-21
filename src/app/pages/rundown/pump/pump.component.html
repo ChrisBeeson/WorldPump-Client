@@ -1,0 +1,39 @@
+<div [hidden]="page1_hidden">
+  <h2>
+    {{ pumpName }}
+  </h2>
+  <h3>
+    {{ pumpDuration }}
+  </h3>
+</div>
+
+<div [hidden]="page2_hidden">
+  <h1>
+    <app-countdown-timer
+      targetDate="{{ pumpStartTime }}"
+      holdAt="{{ pumpDuration }}"
+    ></app-countdown-timer>
+  </h1>
+</div>
+
+<div [hidden]="page3_hidden">
+  <h1>
+    <app-countdown-timer
+      targetDate="{{ pumpStartTime }}"
+      holdAt="{{ pumpDuration }}"
+    ></app-countdown-timer>
+  </h1>
+
+  <h3>
+    {{ pumpName }}
+  </h3>
+  <h4>
+    {{ pumpDuration }}
+  </h4>
+</div>
+
+<div [hidden]="page4_hidden">
+  <h2>
+    Done!
+  </h2>
+</div>

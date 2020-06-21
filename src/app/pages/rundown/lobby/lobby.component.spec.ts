@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PumpSlideComponent } from './pump-slide.component';
+import { LobbyComponent } from './lobby.component';
 
-describe('PumpSlideComponent', () => {
-  let component: PumpSlideComponent;
-  let fixture: ComponentFixture<PumpSlideComponent>;
+describe('LobbyComponent', () => {
+  let component: LobbyComponent;
+  let fixture: ComponentFixture<LobbyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PumpSlideComponent ],
+      declarations: [ LobbyComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PumpSlideComponent);
+    fixture = TestBed.createComponent(LobbyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

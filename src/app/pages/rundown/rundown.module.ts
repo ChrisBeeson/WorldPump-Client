@@ -8,7 +8,6 @@ import { RundownService } from 'src/app/pages/rundown/rundown.service';
 import { CountdownTimer } from './countdown-timer/countdown-timer';
 import { LobbyComponent } from './lobby/lobby.component';
 import { PumpComponent } from './pump/pump.component';
-import { PumpRevealComponent } from './pump-reveal/pump-reveal.component';
 import { WorkoutCountdownComponent } from './workout-countdown/workout-countdown.component';
 import { WorkoutCompleteComponent } from './workout-complete/workout-complete.component';
 
@@ -31,7 +30,6 @@ const routes: Routes = [
     CountdownTimer, 
     LobbyComponent, 
     WorkoutCountdownComponent,
-    PumpRevealComponent, 
     PumpComponent, 
     WorkoutCompleteComponent
 ],

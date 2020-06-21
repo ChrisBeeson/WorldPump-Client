@@ -18,16 +18,10 @@ import { NgSwitchCase } from '@angular/common';
 })
 export class RundownPage implements OnInit {
 
-  slidesOptions: any = {
-    zoom: {
-      toggle: false
-    }
-  };
-
-  @ViewChild('slides') slides: IonSlides;
-
-  public rundown$;
-  public rundown = [];
+  constructor(
+    private rundownService: RundownService,
+    private fns: AngularFireFunctions
+  ) { }
 
   private _generateWorkout$;
 
@@ -37,17 +31,19 @@ export class RundownPage implements OnInit {
   public debugMessage$ = new BehaviorSubject<string>('Debug Bar');
   public currentWorkout: Workout;
 
-  constructor(
-    private rundownService: RundownService,
-    private fns: AngularFireFunctions
-  ) { }
+  @ViewChild('slides') slides: IonSlides;
+
+  slidesOptions: any = {
+    zoom: {
+      toggle: false
+    }
+  };
 
   ngOnInit() {
     this.rundownService.currentWorkout$.pipe(distinct()).subscribe(val => {      // can be Null
       if (val) {
         this.debugMessage$.next('Loaded Workout: ' + this.rundownService.workoutUid);
         this.currentWorkout = val;
-        console.log("current Workout:" + this.currentWorkout);
         this.workoutActive = true;
         this.targetDate = val!.pumps_startAt.toDate().getTime();
       } else {
@@ -70,33 +66,28 @@ export class RundownPage implements OnInit {
       this.debugMessage$.next(stepString);
     });
 
-
-
     // Slide Controller
-
     this.rundownService.stepPipe$.pipe(distinct()).subscribe(step => {
       if (!step) return;
-      
+     // this.slides.lockSwipes(true);
+     
+
       switch (step.page) {
         case 'lobby':
-          this.slides.slideTo(0);
+          this.slides.slideTo(0, 0);
           break;
-
         case 'workout_countdown':
           this.slides.slideTo(1);
           break;
-
         case 'pump':
           this.slides.slideTo(step.pump!.index + 2);
           break;
-
         case 'workout_complete':
           this.slides.slideTo(this.currentWorkout.pumps.length + 3);
           break;
-
         case 'stats':
           console.log('Navigate to Stats');
-          this.slides.slideTo(0);
+          this.slides.slideTo(0, 0);
           break;
         default:
           console.warn('Step page ' + step.page + ' is unhandled');
@@ -105,23 +96,22 @@ export class RundownPage implements OnInit {
     })
   }
 
+  publishGenerateWorkout() {
+    this.debugMessage$.next("Publishing: generate_workout");
+    const payload = {
+      topic: 'generate_workout',
+      inSeconds: '95',
+      TminusModifier: '85',
+      key: 'ch78&*@#$%@32fbcvs0-327ehdu81=-31006*&^%F#dwv'
+    }
 
-publishGenerateWorkout() {
-  this.debugMessage$.next("Publishing: generate_workout");
-  const payload = {
-    topic: 'generate_workout',
-    inSeconds: '95',
-    TminusModifier: '85',
-    key: 'ch78&*@#$%@32fbcvs0-327ehdu81=-31006*&^%F#dwv'
+    const callable = this.fns.httpsCallable('appTriggeredPubSubPublsh');
+    this._generateWorkout$ = callable(payload).toPromise()
+      .then(msg => {
+        this.debugMessage$.next('Success!');
+      })
+      .catch(err => {
+        this.debugMessage$.next('Error:' + err);
+      });
   }
-
-  const callable = this.fns.httpsCallable('appTriggeredPubSubPublsh');
-  this._generateWorkout$ = callable(payload).toPromise()
-    .then(msg => {
-      this.debugMessage$.next('Success!');
-    })
-    .catch(err => {
-      this.debugMessage$.next('Error:' + err);
-    });
-}
 }

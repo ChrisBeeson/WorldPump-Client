@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessagingService } from '../../services/messaging.service';
 import { IonSlides } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-notification-authorisation',
@@ -14,7 +15,9 @@ export class NotificationAuthorisationPage implements OnInit {
   @ViewChild(IonSlides, { static: true }) slides: IonSlides;
 
 
-  constructor(private messagingService:MessagingService) { }
+  constructor(
+    private messagingService:MessagingService,
+    private router: Router,) { }
 
   ngOnInit(): void {
 
@@ -31,7 +34,8 @@ export class NotificationAuthorisationPage implements OnInit {
             this.slides.lockSwipes(true);
             this.messagingService.requestPermission().then(resolve => {
               this.slides.lockSwipes(false);
-              this.slides.slideNext();
+              this.slides.slideNext(); // thank you
+              setTimeout(() => this.router.navigate(["/rundown"]), 1500);
             })
           }
         }

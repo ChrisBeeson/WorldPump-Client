@@ -36,7 +36,8 @@ export class RundownPage implements OnInit {
   slidesOptions: any = {
     zoom: {
       toggle: false
-    }
+    },
+    allowTouchMove:false
   };
 
   ngOnInit() {
@@ -69,9 +70,7 @@ export class RundownPage implements OnInit {
     // Slide Controller
     this.rundownService.stepPipe$.pipe(distinct()).subscribe(step => {
       if (!step) return;
-     // this.slides.lockSwipes(true);
-     
-
+    //  this.slides.lockSwipes(false);
       switch (step.page) {
         case 'lobby':
           this.slides.slideTo(0, 0);
@@ -87,14 +86,17 @@ export class RundownPage implements OnInit {
           break;
         case 'stats':
           console.log('Navigate to Stats');
-          this.slides.slideTo(0, 0);
+       //   this.slides.slideTo(0, 0);
           break;
         default:
           console.warn('Step page ' + step.page + ' is unhandled');
           break;
       }
+     // this.slides.lockSwipes(true);
     })
   }
+
+  
 
   publishGenerateWorkout() {
     this.debugMessage$.next("Publishing: generate_workout");

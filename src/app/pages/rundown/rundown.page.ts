@@ -24,7 +24,7 @@ export class RundownPage implements OnInit {
     }
   };
 
-  @ViewChild(IonSlides, { static: true }) slides: IonSlides;
+  @ViewChild('slides') slides: IonSlides;
 
   public rundown$;
   public rundown = [];
@@ -47,6 +47,7 @@ export class RundownPage implements OnInit {
       if (val) {
         this.debugMessage$.next('Loaded Workout: ' + this.rundownService.workoutUid);
         this.currentWorkout = val;
+        console.log("current Workout:" + this.currentWorkout);
         this.workoutActive = true;
         this.targetDate = val!.pumps_startAt.toDate().getTime();
       } else {
@@ -72,34 +73,55 @@ export class RundownPage implements OnInit {
 
 
     // Slide Controller
-    /*
+
     this.rundownService.stepPipe$.pipe(distinct()).subscribe(step => {
       if (!step) return;
-      if (step.index < 2) {
-        this.slides.slideTo(step.index + 1);
+      
+      switch (step.page) {
+        case 'lobby':
+          this.slides.slideTo(0);
+          break;
+
+        case 'workout_countdown':
+          this.slides.slideTo(1);
+          break;
+
+        case 'pump':
+          this.slides.slideTo(step.pump!.index + 2);
+          break;
+
+        case 'workout_complete':
+          this.slides.slideTo(this.currentWorkout.pumps.length + 3);
+          break;
+
+        case 'stats':
+          console.log('Navigate to Stats');
+          this.slides.slideTo(0);
+          break;
+        default:
+          console.warn('Step page ' + step.page + ' is unhandled');
+          break;
       }
+    })
+  }
+
+
+publishGenerateWorkout() {
+  this.debugMessage$.next("Publishing: generate_workout");
+  const payload = {
+    topic: 'generate_workout',
+    inSeconds: '95',
+    TminusModifier: '85',
+    key: 'ch78&*@#$%@32fbcvs0-327ehdu81=-31006*&^%F#dwv'
+  }
+
+  const callable = this.fns.httpsCallable('appTriggeredPubSubPublsh');
+  this._generateWorkout$ = callable(payload).toPromise()
+    .then(msg => {
+      this.debugMessage$.next('Success!');
+    })
+    .catch(err => {
+      this.debugMessage$.next('Error:' + err);
     });
-*/
-  }
-
-
-
-  publishGenerateWorkout() {
-    this.debugMessage$.next("generate_workout");
-    const payload = {
-      topic: 'generate_workout',
-      inSeconds: '95',
-      TminusModifier: '85',
-      key: 'ch78&*@#$%@32fbcvs0-327ehdu81=-31006*&^%F#dwv'
-    }
-
-    const callable = this.fns.httpsCallable('appTriggeredPubSubPublsh');
-    this._generateWorkout$ = callable(payload).toPromise()
-      .then(msg => {
-        this.debugMessage$.next('Success!');
-      })
-      .catch(err => {
-        this.debugMessage$.next('Error:' + err);
-      });
-  }
+}
 }

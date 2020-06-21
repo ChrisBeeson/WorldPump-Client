@@ -31,7 +31,7 @@ export interface Pump {
 export interface RundownStep {
     index: number,
     name: string,
-    type: string,
+    page: string,
     startAt: firebase.firestore.Timestamp,
     endAt?: firebase.firestore.Timestamp,
     pump?: any

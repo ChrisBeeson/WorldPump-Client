@@ -18,6 +18,7 @@ export class CountdownTimer implements OnInit {
   private _seconds: number;
   private _zeroHold = false;
   private _holdAtSecond: number = null;
+  private _zeroTriggered = false
 
   public isPostive = new BehaviorSubject<boolean>(true);
   public separator = ':';
@@ -51,8 +52,9 @@ export class CountdownTimer implements OnInit {
   calcTimeString(): string {
     this.isPostive.next(true);
     let secondsLeft = (Date.now() - this._targetDate) / 1000;
+    if (secondsLeft ==0) this._zeroTriggered = true;
 
-    if (this._zeroHold && secondsLeft <= 0) {
+    if (this._zeroHold && this._zeroTriggered) {
       return zeroPad(0, 2);
     }
 

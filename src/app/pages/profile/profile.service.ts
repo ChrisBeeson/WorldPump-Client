@@ -5,12 +5,14 @@ import {
 } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService } from '../../services/authentication.service';
-import { Observable, BehaviorSubject, merge } from 'rxjs';
-import { switchMap, map, take } from 'rxjs/operators';
+import {  BehaviorSubject} from 'rxjs';
+import { switchMap, map, take, distinct } from 'rxjs/operators';
 import { Globalization } from '@ionic-native/globalization/ngx';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Profile } from '../../models/user';
+import { RundownService } from '../rundown/services/rundown.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,23 +21,21 @@ export class ProfileService {
   private userProfile: any;
   private currentUser: firebase.User;
   public authenticatedProfile$: BehaviorSubject<any | null> = new BehaviorSubject<any | null>(null);
-  private _profileDoc;
+  public profileDoc: AngularFirestoreDocument<any>;
   //public authenticatedProfile$: Observable<any | null> = new Observable<any | null>(null);
 
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
-    private afAuth: AngularFireAuth,
-    private globalization: Globalization
+    private globalization: Globalization,
   ) {
 
-    this.authService.loggedIn.subscribe(loggedIn => {
+    this.authService.loggedIn.pipe(distinct()).subscribe(loggedIn => {
       if (loggedIn){
       console.log("[profileService] LoggedIn changed");
       this.getUserProfile();
       }
     });
-
   }
 
   async getUserProfile() {
@@ -44,7 +44,7 @@ export class ProfileService {
       this.currentUser = user;
       this.userProfile = await this.firestore.collection("profiles").doc(user.uid).get();
       this.authenticatedProfile$.next(this.userProfile); //this.firestore.collection("profiles").doc(user.uid).valueChanges();
-      this._profileDoc = this.firestore.collection("profiles").doc(user.uid);
+      this.profileDoc = this.firestore.collection("profiles").doc(user.uid);
       this.updateProfile();
     }
   }
@@ -59,7 +59,7 @@ export class ProfileService {
   }
 
   updateName(fullName: string): Promise<void> {
-    return this._profileDoc.update({ fullName });
+    return this.profileDoc.update({ fullName });
   }
 
   async updateEmail(newEmail: string, password: string): Promise<void> {
@@ -93,7 +93,7 @@ export class ProfileService {
    // const user: firebase.User = await this.authService.getUser();
    // if (user) {
       try {
-        await this._profileDoc.set({
+        await this.profileDoc.set({
           pushNotifications:{
           push_notification_token: token,
           push_notification_updated_at: firebase.firestore.FieldValue.serverTimestamp()
@@ -119,7 +119,7 @@ export class ProfileService {
     if (UTC_offset_hours >0) {prefix ='+';}
     const UTC_offset = prefix+UTC_offset_hours;
 
-    await this._profileDoc.set({
+    await this.profileDoc.set({
       timezone: {
       utc_offset:UTC_offset,
       timezone:currentDatePattern.timezone,

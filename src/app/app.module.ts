@@ -28,7 +28,6 @@ import { ProfileService } from './pages/profile/profile.service';
 import { MessagingService } from './services/messaging.service';
 import { RundownModule } from './pages/rundown/rundown.module';
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -66,7 +65,8 @@ import { RundownModule } from './pages/rundown/rundown.module';
     AuthenticationService,
     ProfileService,
     MessagingService,
-    Globalization,
+    Globalization
+
   ],
   bootstrap: [AppComponent]
 })

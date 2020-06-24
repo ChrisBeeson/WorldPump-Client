@@ -50,7 +50,7 @@
 			<string>BUNDLE_ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>$PACKAGE_NAME</string>
+				<string>$(PACKAGE_NAME)</string>
 			</array>
 		</dict>
 	</array>

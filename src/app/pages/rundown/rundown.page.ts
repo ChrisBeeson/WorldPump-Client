@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { RundownService } from 'src/app/pages/rundown/rundown.service';
+import { RundownService } from 'src/app/pages/rundown/services/rundown.service';
 import { scan, distinct } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { ToastController, IonSlides } from '@ionic/angular';

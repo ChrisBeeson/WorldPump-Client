@@ -2,17 +2,20 @@ import { firestore } from 'firebase';
 
 
 export interface Workout {
-    name?: String;
-    uid: String,
+    name?: string;
+    uid: string,
     startAt?: firestore.Timestamp;
-    endAt?: Date;
+    endAt?: firestore.Timestamp;
     pumps: Pump[];
     exercise_duration: number;
-    type: String;
+    type: string;
     rundown: any[];
     generate_on_completion: boolean;
     channel: string;                   // support for dev in production
     enabled: boolean;
+    completed: boolean;
+    active:boolean;
+    pumps_startAt:firestore.Timestamp
 }
 
 
@@ -25,6 +28,7 @@ export interface Pump {
     countdown_duration:number;
     startAt: firestore.Timestamp;
     endAt?: firestore.Timestamp;
+    expected_rep_count?:number
 }
 
 

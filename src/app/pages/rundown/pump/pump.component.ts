@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Pump, RundownSequence } from '../../../models/interfaces';
 import { distinct } from 'rxjs/operators';
-import { RundownService } from '../rundown.service';
+import { RundownService } from '../services/rundown.service';
 import { IonSlides } from '@ionic/angular';
 
 

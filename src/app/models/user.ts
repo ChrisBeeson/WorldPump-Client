@@ -6,4 +6,5 @@ export interface UserCredential {
 export interface Profile {
   email: string;
   fullName: string;
+  workouts_attended: number;
 }

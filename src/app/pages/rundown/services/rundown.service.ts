@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { first, take, tap, delay, distinct } from 'rxjs/operators';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument
-} from '@angular/fire/firestore';
+import { distinct } from 'rxjs/operators';
+import { AngularFirestore} from '@angular/fire/firestore';
 import { firestore } from 'firebase';
-import { RundownSequence, RundownStep } from '../../models/interfaces';
+import { Workout, RundownStep } from 'src/app/models/interfaces';
+
+// Rundown steps:
+//     -> standby -> first_call -> workout_countdown
+// Loop for each pump: 
+//     -> pump_reveal -> pump_countdown -> pump_start -> pump_complete -> pump_cooldown
+// Ends:
+//     -> workout_cooldown -> workout_complete
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +23,7 @@ export class RundownService {
   private _activeWorkout$: Observable<any>;
 
   public workoutIsActive$ = new BehaviorSubject<boolean>(false);
-  public currentWorkout$ = new BehaviorSubject<any | null>(null);
+  public currentWorkout$ = new BehaviorSubject<Workout| null>(null);
   public stepPipe$ = new BehaviorSubject<RundownStep | null>(null);
   public stepCount = 0;
 
@@ -57,7 +60,7 @@ export class RundownService {
     }
 
     this.workoutUid = workout;
-    this.currentWorkout$.next(workoutData);
+    this.currentWorkout$.next(workoutData as Workout);
     this.stepCount = workoutData.rundown.length - 1;
     this._rundownSequence = {
       startAt: workoutData.startAt,
@@ -68,7 +71,6 @@ export class RundownService {
   }
 
   populatePipes() {
-
     // If we've already started emit the current step
     const currentIndex = this.currentStepIndex();
     if (currentIndex > -1) {
@@ -140,5 +142,4 @@ export class RundownService {
     this.workoutIsActive$.next(false);
     this.workoutUid = null;
   }
-
 }

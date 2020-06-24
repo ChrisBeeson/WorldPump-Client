@@ -19,6 +19,7 @@ export class CountdownTimer implements OnInit {
   private _zeroHold = false;
   private _holdAtSecond: number = null;
   private _zeroTriggered = false
+  private _running = false;
 
   public isPostive = new BehaviorSubject<boolean>(true);
   public separator = ':';
@@ -27,7 +28,8 @@ export class CountdownTimer implements OnInit {
   @Input()
   set targetDate(target: number) {
     this._targetDate = target;
-    this.countdownString$.next(this.calcTimeString())
+    this._running = true;
+    this.updateTimeString()
   }
 
   @Input() @Optional()
@@ -43,15 +45,17 @@ export class CountdownTimer implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    /*
     this._interval = interval(1000);
     this._interval.subscribe(x => {
       this.countdownString$.next(this.calcTimeString());
     })
+    */
   };
 
-  calcTimeString(): string {
+  updateTimeString(){
     this.isPostive.next(true);
-    let secondsLeft = (Date.now() - this._targetDate) / 1000;
+    let secondsLeft = Math.floor((Date.now() - this._targetDate) / 1000);
     if (secondsLeft ==0) this._zeroTriggered = true;
 
     if (this._zeroHold && this._zeroTriggered) {
@@ -67,7 +71,18 @@ export class CountdownTimer implements OnInit {
       return this.formatSeconds(this._holdAtSecond);
     }
 
-    return this.formatSeconds(secondsLeft);
+    this.countdownString$.next(this.formatSeconds(secondsLeft));
+
+    // rerun this function on the whole next second.
+    let now = Date.now();
+    let leadingEdge = new Date;
+    leadingEdge.setSeconds(leadingEdge.getSeconds()+1);
+    leadingEdge.setMilliseconds(0);
+    let timeToLeadingEdge = leadingEdge.getTime() - now;
+    
+    if (this._running) {
+      setTimeout(() => this.updateTimeString(), timeToLeadingEdge);
+    }
   }
 
   formatSeconds(secondsLeft: number): string {

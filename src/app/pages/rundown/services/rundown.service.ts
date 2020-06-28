@@ -4,6 +4,7 @@ import { distinct } from 'rxjs/operators';
 import { AngularFirestore} from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Workout, RundownStep } from 'src/app/models/interfaces';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // Rundown steps:
 //     -> standby -> first_call -> workout_countdown
@@ -21,6 +22,7 @@ export class RundownService {
   private _rundownSequence = null;
   public workoutUid = null;
   private _activeWorkout$: Observable<any>;
+  private _timeouts = [];
 
   public workoutIsActive$ = new BehaviorSubject<boolean>(false);
   public currentWorkout$ = new BehaviorSubject<Workout| null>(null);
@@ -40,6 +42,8 @@ export class RundownService {
     this._activeWorkout$.pipe(distinct()).subscribe(item => {
       if (item[0]) {
         this.loadRundownFromWorkout(item[0].uid);
+      } else {
+        this.clearWorkout();
       }
     });
   }
@@ -85,12 +89,12 @@ export class RundownService {
       const millisFromNow = stepStartAt - Date.now();
 
       if (millisFromNow > 0) {
-        setTimeout(() => this.stepPipe$.next({ index: index, ...step }), millisFromNow);
+        this._timeouts.push(setTimeout(() => this.stepPipe$.next({ index: index, ...step }), millisFromNow));
       }
 
       // If we're not already active schedule when we will be
       if (index == 0) {
-        setTimeout(() => this.workoutIsActive$.next(true), millisFromNow);
+        this._timeouts.push(setTimeout(() => this.workoutIsActive$.next(true), millisFromNow));
       }
     }
 
@@ -141,5 +145,7 @@ export class RundownService {
     this.stepPipe$.next(null);
     this.workoutIsActive$.next(false);
     this.workoutUid = null;
+    this._timeouts.forEach(t => clearTimeout(t));
+    this._timeouts = [];
   }
 }

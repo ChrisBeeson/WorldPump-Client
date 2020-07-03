@@ -10,6 +10,9 @@ import { WorkoutCompleteComponent } from './workout-complete/workout-complete.co
 import { WorkoutCountdownComponent } from './workout-countdown/workout-countdown.component';
 import { PumpComponent } from './pump/pump.component';
 import { RundownService } from './services/rundown.service';
+import { AttendanceService } from './services/attendance.service';
+import { NumberSuffixPipe } from './pipes/number-suffix.pipe';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 
 const routes: Routes = [
   {
@@ -31,8 +34,11 @@ const routes: Routes = [
     LobbyComponent, 
     WorkoutCountdownComponent,
     PumpComponent, 
-    WorkoutCompleteComponent
+    WorkoutCompleteComponent,NumberSuffixPipe,
 ],
-  providers:[RundownService]
+
+  providers:[RundownService, AttendanceService,  Insomnia],
+
+  exports:[NumberSuffixPipe],
 })
 export class RundownModule {}

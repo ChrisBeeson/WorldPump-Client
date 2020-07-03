@@ -32,7 +32,6 @@ export class ProfileService {
 
     this.authService.loggedIn.pipe(distinct()).subscribe(loggedIn => {
       if (loggedIn){
-      console.log("[profileService] LoggedIn changed");
       this.getUserProfile();
       }
     });
@@ -125,7 +124,8 @@ export class ProfileService {
       timezone:currentDatePattern.timezone,
       iana_timezone:currentDatePattern.iana_timezone,
       dst_offset:currentDatePattern.dst_offset
-      }
+      },
+      last_loggedIn:firebase.firestore.FieldValue.serverTimestamp()
     }, 
     {merge: true});
 

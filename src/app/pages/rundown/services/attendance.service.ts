@@ -82,6 +82,7 @@ export class AttendanceService {
 
     });
 
+    
   }
 
 
@@ -131,7 +132,10 @@ export class AttendanceService {
 
   async setCurrentlyAttending(attending: boolean, uid?: string) {
     if (attending) {
+      if (uid) {
+      console.log('updating profile with workout_currently_attending');
       await this.profileService.profileDoc.update({ workout_currently_attending: uid });
+      }
       this.currently_attending = true;
     } else {
       this.currently_attending = false;

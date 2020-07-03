@@ -6,19 +6,26 @@
   </ion-toolbar>
 </ion-header>
 
-<div *ngIf="workoutActive">
-  <h3 class="ion-text-center">
+<div *ngIf="!workoutActive" class='top-infobar'>
+
+
+  <div class="timer">
     <app-countdown-timer targetDate={{targetDate}} ></app-countdown-timer> 
-  </h3>
+  </div>
+
+
+  <ion-chip color="warning" mode="ios" outline="false">
+    <ion-label>{{aggregationService.attendanceCount$ | async | NumberSuffixPipe:2}}</ion-label>
+    <ion-icon name="body"></ion-icon>
+</ion-chip> 
+
 </div>
 
 <ion-content>
  
   <!-- 
-  <div *ngIf="workoutActive">
-    <ion-chip color="warning" mode="ios" outline="true">
-      <ion-label>Workout Active</ion-label>
-    </ion-chip> 
+
+
   </div>
 -->
   

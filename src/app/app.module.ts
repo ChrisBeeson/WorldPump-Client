@@ -27,6 +27,7 @@ import { AppManagerService } from './services/app-manager.service';
 import { ProfileService } from './pages/profile/profile.service';
 import { MessagingService } from './services/messaging.service';
 import { RundownModule } from './pages/rundown/rundown.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,7 +52,8 @@ import { RundownModule } from './pages/rundown/rundown.module';
     }),
     OnboardPageModule,
     LoginPageModule,
-    RundownModule
+    RundownModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -10,6 +10,8 @@ import { ToastController, IonSlides } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Pump, Workout } from 'src/app/models/interfaces';
 import { NgSwitchCase } from '@angular/common';
+import { AttendanceService } from './services/attendance.service';
+import { AggregationService } from './services/aggregation.service';
 
 @Component({
   selector: 'app-rundown',
@@ -20,7 +22,9 @@ export class RundownPage implements OnInit {
 
   constructor(
     private rundownService: RundownService,
-    private fns: AngularFireFunctions
+    private fns: AngularFireFunctions,
+    private attendanceService: AttendanceService,
+    public aggregationService: AggregationService
   ) { }
 
   private _generateWorkout$;

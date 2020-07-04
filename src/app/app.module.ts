@@ -19,7 +19,6 @@ import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
 import { FirebaseConfig } from '@ionic-native/firebase-config/ngx';
 import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
-import { Globalization } from '@ionic-native/globalization/ngx';
 import { OnboardPageModule } from './pages/onboard/onboard.module';
 import { LoginPageModule } from './pages/login/login.module';
 import { AuthenticationService } from './services/authentication.service';
@@ -28,6 +27,7 @@ import { ProfileService } from './pages/profile/profile.service';
 import { MessagingService } from './services/messaging.service';
 import { RundownModule } from './pages/rundown/rundown.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { Globalization } from '@ionic-native/globalization/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -68,7 +68,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ProfileService,
     MessagingService,
     Globalization
-
   ],
   bootstrap: [AppComponent]
 })

@@ -72,7 +72,6 @@ export class AttendanceService {
 
     App.addListener('appStateChange', (state: AppState) => {
       // state.isActive contains the active state
-      console.log('App state changed. Is active?', state.isActive);
 
       if (!state.isActive) {
         if (this._currentStep > 4)

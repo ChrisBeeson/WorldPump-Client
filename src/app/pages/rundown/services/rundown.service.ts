@@ -62,7 +62,7 @@ export class RundownService {
     if (!workoutData.active) {
       console.warn('[RundownService] Workout not active'); return;
     }
-
+    workoutData.uid = workout;
     this.workoutUid = workout;
     this.currentWorkout$.next(workoutData as Workout);
     this.stepCount = workoutData.rundown.length - 1;

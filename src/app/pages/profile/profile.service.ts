@@ -5,13 +5,13 @@ import {
 } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService } from '../../services/authentication.service';
-import {  BehaviorSubject} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { switchMap, map, take, distinct } from 'rxjs/operators';
-import { Globalization } from '@ionic-native/globalization/ngx';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Profile } from '../../models/user';
 import { RundownService } from '../rundown/services/rundown.service';
+import { Globalization } from '@ionic-native/globalization/ngx';
 
 
 @Injectable({
@@ -27,12 +27,12 @@ export class ProfileService {
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
-    private globalization: Globalization,
+    private g: Globalization
   ) {
 
     this.authService.loggedIn.pipe(distinct()).subscribe(loggedIn => {
-      if (loggedIn){
-      this.getUserProfile();
+      if (loggedIn) {
+        this.getUserProfile();
       }
     });
   }
@@ -48,8 +48,17 @@ export class ProfileService {
     }
   }
 
-  public updateProfile() {
-    this.updateGlobalization();
+  public async updateProfile() {
+    if (this.profileDoc) {
+      try {
+        const batch = this.firestore.firestore.batch();
+        batch.update(this.profileDoc.ref, { last_loggedIn: firebase.firestore.FieldValue.serverTimestamp() })
+        this.updateGlobalization(batch);
+        await batch.commit();
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   isNotificationsEnabled(): boolean {
@@ -75,7 +84,7 @@ export class ProfileService {
     }
   }
 
-  async updatePassword( newPassword: string, oldPassword: string): Promise<void> {
+  async updatePassword(newPassword: string, oldPassword: string): Promise<void> {
     const credential: firebase.auth.AuthCredential = firebase.auth.EmailAuthProvider.credential(
       this.currentUser.email,
       oldPassword
@@ -89,45 +98,38 @@ export class ProfileService {
   }
 
   public async updatePushNotificationToken(token: String) {
-   // const user: firebase.User = await this.authService.getUser();
-   // if (user) {
-      try {
-        await this.profileDoc.set({
-          pushNotifications:{
+    try {
+      await this.profileDoc.set({
+        pushNotifications: {
           push_notification_token: token,
           push_notification_updated_at: firebase.firestore.FieldValue.serverTimestamp()
-          }
-        }, 
-        {merge: true});
-      } catch {
-        console.log('error updating profile');
-      }
-//    } else {
-//      console.exception('[ProfileService] updatePushNotificationToken - User is null');
-//    }
+        }
+      },
+        { merge: true });
+    } catch {
+      console.log('error updating profile');
+    }
+
   }
 
-  async updateGlobalization() {  
-    const currentDatePattern = await this.globalization.getDatePattern( { formatLength: 'short', selector: 'date and time' });
-    console.log(currentDatePattern);
-    // {"pattern":"d/M/yy, h:mm a","timezone":"AEST","iana_timezone":"Australia/Brisbane","utc_offset":36000,"dst_offset":0}
+  updateGlobalization(batch) {
 
-    const UTC_offset_hours = currentDatePattern.utc_offset/(60*60);
+    const d = new Date();
+    const UTC_offset_hours = d.getTimezoneOffset() / 60;
     let prefix = '';
-    if (UTC_offset_hours <0) {prefix ='-';}
-    if (UTC_offset_hours >0) {prefix ='+';}
-    const UTC_offset = prefix+UTC_offset_hours;
+    if (UTC_offset_hours < 0) { prefix = '-'; }
+    if (UTC_offset_hours > 0) { prefix = '+'; }
+    const UTC_offset = prefix + UTC_offset_hours;
 
-    await this.profileDoc.set({
-      timezone: {
-      utc_offset:UTC_offset,
-      timezone:currentDatePattern.timezone,
-      iana_timezone:currentDatePattern.iana_timezone,
-      dst_offset:currentDatePattern.dst_offset
-      },
-      last_loggedIn:firebase.firestore.FieldValue.serverTimestamp()
-    }, 
-    {merge: true});
+    batch.update(this.profileDoc.ref, {
+      current_timezone: {
+        utc_offset: UTC_offset,
+        // timezone:currentDatePattern.timezone,
+        //iana_timezone:currentDatePattern.iana_timezone,
+        // dst_offset:currentDatePattern.dst_offset
+      }
+    },
+      { merge: true });
 
   }
 }

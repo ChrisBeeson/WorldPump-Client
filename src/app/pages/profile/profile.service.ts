@@ -11,8 +11,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Profile } from '../../models/user';
 import { RundownService } from '../rundown/services/rundown.service';
-import { Globalization } from '@ionic-native/globalization/ngx';
-
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +26,7 @@ export class ProfileService {
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
-    private g: Globalization
+    private httpClient: HttpClient
   ) {
 
     this.authService.loggedIn.pipe(distinct()).subscribe(loggedIn => {
@@ -53,7 +52,7 @@ export class ProfileService {
       try {
         const batch = this.firestore.firestore.batch();
         batch.update(this.profileDoc.ref, { last_loggedIn: firebase.firestore.FieldValue.serverTimestamp() })
-        this.updateGlobalization(batch);
+        await this.updateLocationInfo(batch);
         await batch.commit();
       } catch (error) {
         console.error(error);
@@ -109,27 +108,49 @@ export class ProfileService {
     } catch {
       console.log('error updating profile');
     }
-
   }
 
-  updateGlobalization(batch) {
+  async updateLocationInfo(batch) {
 
-    const d = new Date();
-    const UTC_offset_hours = d.getTimezoneOffset() / 60;
-    let prefix = '';
-    if (UTC_offset_hours < 0) { prefix = '-'; }
-    if (UTC_offset_hours > 0) { prefix = '+'; }
-    const UTC_offset = prefix + UTC_offset_hours;
+    //todo: At the moment this is updating on every load.
 
-    batch.update(this.profileDoc.ref, {
-      current_timezone: {
-        utc_offset: UTC_offset,
-        // timezone:currentDatePattern.timezone,
-        //iana_timezone:currentDatePattern.iana_timezone,
-        // dst_offset:currentDatePattern.dst_offset
+    const ipInfo = await this.getIpData();
+    if (!ipInfo) {console.log('IP-API response is null'); return;}
+   // if (this.userProfile?.location.query == ipInfo['query']) {return;}
+
+    batch.set(this.profileDoc.ref, {
+      location: {
+        utc_offset: utcOffsetString(ipInfo['offset']),
+        timezone: ipInfo['timezone'],
+        continent: ipInfo['continent'],
+        country: ipInfo['country'],
+        regionName:ipInfo['regionName'],
+        city:ipInfo['city'],
+        district:ipInfo['district'],
+        zip:ipInfo['zip'],
+        currency:ipInfo['currency']
       }
     },
-      { merge: true });
-
+    { merge: true });
   }
+
+async getIpData() {
+  //https://ip-api.com/docs/api:json
+  const endpoint = 'http://ip-api.com/json/?fields=status,message,continent,country,regionName,city,district,zip,timezone,offset,currency,query';
+ return await this.httpClient.get(endpoint).toPromise()
+ .then(data => {return data})
+ .catch (err =>{ console.warn(err)});
 }
+
+}
+
+const utcOffsetString = function(seconds){
+  const d = new Date();
+  const hours = (seconds / (60 * 60));
+  let prefix = '';
+  if (hours < 0) { prefix = '-'; }
+  if (hours > 0) { prefix = '+'; }
+  const UTC_offset = prefix + hours;
+  return UTC_offset;
+}
+

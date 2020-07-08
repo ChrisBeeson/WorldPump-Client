@@ -28,8 +28,8 @@
     <param name="ios-package" value="FirebaseDynamicLinksPlugin"/>
   </feature>
 
-  <feature name="Globalization">
-    <param name="ios-package" value="CDVGlobalization"/>
+  <feature name="Geolocation">
+    <param name="ios-package" value="CDVLocation"/>
   </feature>
 
   <feature name="UniversalAnalytics">

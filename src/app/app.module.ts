@@ -27,7 +27,6 @@ import { ProfileService } from './pages/profile/profile.service';
 import { MessagingService } from './services/messaging.service';
 import { RundownModule } from './pages/rundown/rundown.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { Globalization } from '@ionic-native/globalization/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -67,7 +66,6 @@ import { Globalization } from '@ionic-native/globalization/ngx';
     AuthenticationService,
     ProfileService,
     MessagingService,
-    Globalization
   ],
   bootstrap: [AppComponent]
 })

@@ -62,6 +62,15 @@ export class RundownService {
     if (!workoutData.active) {
       console.warn('[RundownService] Workout not active'); return;
     }
+
+    // is endAt past now?
+
+    if (workoutData.endAt?.toDate().getTime() < Date.now()) {
+      console.log('[RundownService] the workout is active, but weve past the endAt');
+      return;
+      //todo: force a doc check and update. perhaps through pubsub.  - but this is mainly an error cause during dev.
+    } 
+
     workoutData.uid = workout;
     this.workoutUid = workout;
     this.currentWorkout$.next(workoutData as Workout);

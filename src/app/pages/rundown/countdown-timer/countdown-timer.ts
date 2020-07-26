@@ -67,9 +67,9 @@ export class CountdownTimer implements OnInit {
       secondsLeft = Math.abs(secondsLeft)
     }
 
-    if (this._holdAtSecond && secondsLeft >= this._holdAtSecond) {
-      return this.formatSeconds(this._holdAtSecond);
-    }
+   // if (this._holdAtSecond && secondsLeft >= this._holdAtSecond) {
+   //   return this.formatSeconds(this._holdAtSecond);
+   // }
 
     this.countdownString$.next(this.formatSeconds(secondsLeft));
 

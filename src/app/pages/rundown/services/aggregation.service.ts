@@ -24,9 +24,15 @@ export class AggregationService {
 
       if (workout) {
         // we monitor the current workouts sub collection
-        this._aggregateDoc$ = this.firestore.collection("workouts").doc(this.rundownService.workoutUid).collection('attendance_aggregation', ref => {
-          return ref.orderBy('createdAt').limitToLast(1)
-        }).valueChanges();
+        try {
+          
+          this._aggregateDoc$ = this.firestore.collection("workouts").doc(this.rundownService.workoutUid).collection('attendance_aggregation', ref => {
+            return ref.orderBy('createdAt').limitToLast(1)
+          }).valueChanges();
+
+        } catch (err) {
+          console.log(err);
+        }
 
         this._aggregateDoc$.subscribe(doc => {
           clearTimeout(this._attendanceTimer);
@@ -43,18 +49,18 @@ export class AggregationService {
   }
 }
 
-function animateValue(subject, timerRef, startValue, endValue, duration){
-  if (timerRef) {  clearInterval(timerRef); }
+function animateValue(subject, timerRef, startValue, endValue, duration) {
+  if (timerRef) { clearInterval(timerRef); }
   const minInterval = 800;
   const valueRange = endValue - startValue;
   const startTime = new Date().getTime();
   const endTime = startTime + (duration * 1000);
-  const interval = Math.max((endTime-startTime)/valueRange, minInterval);
+  const interval = Math.max((endTime - startTime) / valueRange, minInterval);
 
   function run() {
     const now = new Date().getTime();
-    const rangePercent = Math.min(1-((endTime-now)/(endTime-startTime)),1);
-    const value = Math.round((rangePercent * valueRange) +startValue);
+    const rangePercent = Math.min(1 - ((endTime - now) / (endTime - startTime)), 1);
+    const value = Math.round((rangePercent * valueRange) + startValue);
 
     subject.next(value);
     if (rangePercent >= 1) {

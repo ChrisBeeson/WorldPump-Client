@@ -6,16 +6,13 @@ The WorldPump Client codebase is structured using Angular best practices and Ion
 
 Overall, the project is cohesive and demonstrates a clear separation of concerns. Future enhancements might involve improved documentation, higher test coverage, refined security rules, and a strategic approach to state management if needed. With these considerations, contributors should find it approachable to maintain and extend the functionality of WorldPump.
 
+![Pump Countdown](https://github.com/WorldPump/WorldPump-Client/blob/master/Picture1.png)
+
 ## Stack
 - Angular
 - Ionic
 - AngularFirebase
-- Firestore
-- Facebook Authentication
-- Firebase Cloud Messaging
-- Firebase Analytics
-- Firebase Crashlytics
-- Firebase DynamicLinks
+- Firebase
 - Globalisation
 ---
 
@@ -31,7 +28,7 @@ Overall, the project is cohesive and demonstrates a clear separation of concerns
 
 The sections below detail various components, services, pages, and the technical architecture that powers WorldPump.
 
-![Pump Countdown](https://github.com/WorldPump/WorldPump-Client/blob/master/Picture1.png)
+
 ---
 
 ## 2. Project Overview

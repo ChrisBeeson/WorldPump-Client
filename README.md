@@ -31,6 +31,7 @@ Overall, the project is cohesive and demonstrates a clear separation of concerns
 
 The sections below detail various components, services, pages, and the technical architecture that powers WorldPump.
 
+![Pump Countdown](https://github.com/WorldPump/WorldPump-Client/blob/master/Picture1.png)
 ---
 
 ## 2. Project Overview
@@ -203,4 +204,4 @@ The sections below detail various components, services, pages, and the technical
    - **Observable Streams** in services keep track of real-time updates from Firestore.  
    - **Capacitor Plugins** handle native calls for geolocation, notifications, etc.
 
-![Pump Countdown](https://github.com/WorldPump/WorldPump-Client/blob/master/Picture1.png)
+
